@@ -162,7 +162,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/UVa12030/">
+    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/23252.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -176,7 +176,108 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/UVa/UVa12030/" class="post-title-link" itemprop="url">UVa 12030: Help the Winners</a>
+            <a href="/UVa/23252.html" class="post-title-link" itemprop="url">UVa 10065: Useless Tile Packers</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2021-03-14 20:29:54 / 修改時間：23:50:33" itemprop="dateCreated datePublished" datetime="2021-03-14T20:29:54+08:00">2021-03-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UVa/" itemprop="url" rel="index"><span itemprop="name">UVa</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="文章字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">文章字數：</span>
+              <span>747</span>
+            </span>
+            <span class="post-meta-item" title="所需閱讀時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+              <span>1 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="描述">描述</h1>
+<p>有一瓦片，形狀為 <span class="math inline">\(N\)</span> 點 <span class="math inline">\((3 \leq N \leq 100)\)</span> 組成的簡單多邊形，用來裝該瓦片的容器，形狀為恰好能放入該瓦片的最小凸多邊形，問該瓦片放入容器後，在不考慮厚度的情況下，容器中會有多少百分比的面積浪費。</p>
+<h1 id="思路">思路</h1>
+<p>浪費面積的百分比，為 <span class="math inline">\({(\text {容器面積} - \text {瓦片面積}) \over \text {容器面積}} \times 100 \%\)</span>，因此我們首先需要知道瓦片和容器的面積。</p>
+<h2 id="簡單多邊形面積">簡單多邊形面積</h2>
+<p>由於瓦片是由 <span class="math inline">\(N\)</span> 點組成的簡單多邊形，因此它的面積可以由鞋帶公式（shoelace formula）得到：</p>
+<p><span class="math display">\[
+{area} = \frac{|{x_1}{y_2} - {x_2}{y_1} + {x_2}{y_3} - {x_3}{y_2} + \dots + {x_{n-1}}{y_{n}} - {x_{n}}{y_{n-1}} + {x_{n}}{y_1} - {x_1}{y_{n}}|}{2}
+\]</span></p>
+<p>注意到點必須按順時針或逆時針方向排序，若為逆時針，則分子的值為正，若為順時針，則分子的值為負，由於面積非負，所以需要對分子取絕對值。</p>
+<h2 id="凸包convex-hull">凸包（convex hull）</h2>
+<p>現在瓦片的面積已經知道，接下來要找到容器的面積。由於容器的形狀為恰好能放入瓦片的最小凸多邊形，這表示我們需要先尋找 <span class="math inline">\(N\)</span> 點的凸包，接著算出該凸包的面積。用來尋找凸包的演算法很多，可以參考文末連結，在實作演算法時，由於題目已經提及不會發生三點共線，並且所有點都位於第一象限或 <span class="math inline">\(+x\)</span> 軸或 <span class="math inline">\(+y\)</span> 軸上，因此不用顧慮太多。得到凸包後，套用上面的鞋帶公式即可求得面積，不過要注意凸包的點要先排序過，否則結果會是錯誤的。</p>
+<h1 id="結論">結論</h1>
+<p>本題在思路上不算困難，但是要求解題者對上述的演算法有著清晰的理解，不然實作不出來也是白搭。</p>
+<h1 id="備註">備註</h1>
+<ul>
+<li><a href="&#39;https://en.wikipedia.org/wiki/Simple_polygon&#39;">簡單多邊形</a></li>
+<li><a href="&#39;https://en.wikipedia.org/wiki/Shoelace_formula&#39;">鞋帶公式</a></li>
+<li><a href="&#39;https://en.wikipedia.org/wiki/Convex_hull_algorithms&#39;">凸包演算法</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/2917.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yeecy">
+      <meta itemprop="description" content="紀錄寫 bug 的日常">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yeecy 程式雜筆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/UVa/2917.html" class="post-title-link" itemprop="url">UVa 12030: Help the Winners</a>
         </h2>
 
         <div class="post-meta">
@@ -193,7 +294,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-11 20:05:05" itemprop="dateModified" datetime="2021-03-11T20:05:05+08:00">2021-03-11</time>
+                <time title="修改時間：2021-03-14 20:44:36" itemprop="dateModified" datetime="2021-03-14T20:44:36+08:00">2021-03-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -351,7 +452,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -364,7 +465,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -400,12 +501,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="總字數">3k</span>
+    <span title="總字數">4k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="所需總閱讀時間">3 分鐘</span>
+    <span title="所需總閱讀時間">4 分鐘</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
   </div>

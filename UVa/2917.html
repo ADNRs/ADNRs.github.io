@@ -21,17 +21,19 @@
   <meta name="description" content="描述 已知 \(1 \leq n \leq 15\)，令 \(\mathbf {A} &#x3D; [\mathbf {a}_{i, j} ]_{n \times n}\)。若 \(\mathbf {a}_{i, j} &#x3D; 0\)，表第 \(i\) 件連衣裙與第 \(j\) 雙鞋子不搭；若為 \(\mathbf {a}_{i, j} &#x3D; 1\)，表搭；若為 \(\mathbf {a}_{i, j} &#x3D; 2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UVa 12030: Help the Winners">
-<meta property="og:url" content="https://adnrs.github.io/UVa/UVa12030/index.html">
+<meta property="og:url" content="https://adnrs.github.io/UVa/2917.html">
 <meta property="og:site_name" content="Yeecy 程式雜筆">
 <meta property="og:description" content="描述 已知 \(1 \leq n \leq 15\)，令 \(\mathbf {A} &#x3D; [\mathbf {a}_{i, j} ]_{n \times n}\)。若 \(\mathbf {a}_{i, j} &#x3D; 0\)，表第 \(i\) 件連衣裙與第 \(j\) 雙鞋子不搭；若為 \(\mathbf {a}_{i, j} &#x3D; 1\)，表搭；若為 \(\mathbf {a}_{i, j} &#x3D; 2">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-03-09T15:12:00.000Z">
-<meta property="article:modified_time" content="2021-03-11T12:05:05.685Z">
+<meta property="article:modified_time" content="2021-03-14T12:44:36.277Z">
 <meta property="article:author" content="Yeecy">
 <meta property="article:tag" content="UVa">
+<meta property="article:tag" content="Depth first search">
+<meta property="article:tag" content="Dynamic programming">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://adnrs.github.io/UVa/UVa12030/">
+<link rel="canonical" href="https://adnrs.github.io/UVa/2917.html">
 
 
 <script id="page-configurations">
@@ -165,7 +167,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/UVa12030/">
+    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/2917.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -195,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-11 20:05:05" itemprop="dateModified" datetime="2021-03-11T20:05:05+08:00">2021-03-11</time>
+                <time title="修改時間：2021-03-14 20:44:36" itemprop="dateModified" datetime="2021-03-14T20:44:36+08:00">2021-03-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,12 +284,21 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/UVa/" rel="tag"># UVa</a>
+              <a href="/tags/Depth-first-search/" rel="tag"># Depth first search</a>
+              <a href="/tags/Dynamic-programming/" rel="tag"># Dynamic programming</a>
           </div>
 
         
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/UVa/23252.html" rel="next" title="UVa 10065: Useless Tile Packers">
+      UVa 10065: Useless Tile Packers <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -359,7 +370,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -372,7 +383,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -408,12 +419,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="總字數">3k</span>
+    <span title="總字數">4k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="所需總閱讀時間">3 分鐘</span>
+    <span title="所需總閱讀時間">4 分鐘</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
   </div>
