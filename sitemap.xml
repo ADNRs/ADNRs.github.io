@@ -2,14 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://adnrs.github.io/UVa/23252.html</loc>
+    <loc>https://adnrs.github.io/UVa/43165.html</loc>
     
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
     
   </url>
   
   <url>
     <loc>https://adnrs.github.io/UVa/2917.html</loc>
+    
+    <lastmod>2021-03-18</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://adnrs.github.io/UVa/23252.html</loc>
     
     <lastmod>2021-03-14</lastmod>
     
@@ -39,7 +46,7 @@
 
   <url>
     <loc>https://adnrs.github.io/</loc>
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -47,35 +54,42 @@
   
   <url>
     <loc>https://adnrs.github.io/tags/UVa/</loc>
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://adnrs.github.io/tags/Computational-geometry/</loc>
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://adnrs.github.io/tags/Convex-hull/</loc>
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://adnrs.github.io/tags/Depth-first-search/</loc>
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://adnrs.github.io/tags/Breadth-first-search/</loc>
+    <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://adnrs.github.io/tags/Dynamic-programming/</loc>
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -84,7 +98,7 @@
   
   <url>
     <loc>https://adnrs.github.io/categories/UVa/</loc>
-    <lastmod>2021-03-14</lastmod>
+    <lastmod>2021-03-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
