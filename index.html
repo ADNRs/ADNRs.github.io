@@ -162,6 +162,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/43710.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yeecy">
+      <meta itemprop="description" content="紀錄寫 bug 的日常">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yeecy 程式雜筆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/UVa/43710.html" class="post-title-link" itemprop="url">UVa 10246: Asterix and Obelix</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2021-03-29 00:16:57" itemprop="dateCreated datePublished" datetime="2021-03-29T00:16:57+08:00">2021-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UVa/" itemprop="url" rel="index"><span itemprop="name">UVa</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="文章字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">文章字數：</span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="所需閱讀時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+              <span>1 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="描述">描述</h1>
+<p>Asterix 和 Obelix 在戰爭勝利後，基於一些因素，Asterix 決定要在回家的路上，找個城市宴請 Obelix，考慮到 Obelix 的食量大（看看那體型），為保險起見，Asterix 決定在路過的城市中，選花費最高的城市舉辦宴會，除此之外，城市間的道路都會收取數額不等的過路費。給定出發城市和目的城市，求 Asterix 花費的最小金額。</p>
+<h1 id="思路">思路</h1>
+<h2 id="第一層">第一層</h2>
+<p>每當 Asterix 要前往下一個城市時，選擇的道路和抵達的城市都會影響到花費，道路的選擇想當然耳，是花費越低的越好，但是選花費最低的道路，卻有可能導致抵達的城市不是 Asterix 該去的，怎麼說呢？</p>
+<p>假設 Asterix 可以去甲城市或乙城市（兩者都不是目的城市），路費分別為 <span class="math inline">\(n\)</span> 和 <span class="math inline">\(m\)</span>，宴會費用為 <span class="math inline">\(l\)</span> 和 <span class="math inline">\(s\)</span>，並且 <span class="math inline">\(n &lt; m &lt; s &lt; l\)</span>，若挑花費較低的道路，Asterix 會抵達宴會成本較高的甲城市，那麼問題來了：</p>
+<ul>
+<li>如果甲城市的宴會費用是目前所有路過城市中最高的，那麼 Asterix 只能選擇在甲城市舉辦宴會，在此情況下，之前的路線選擇還會是最優的嗎？</li>
+</ul>
+<p>答案是不一定，這告訴我們不理會宴會費用，只考慮最短路徑是不現實的，既然要思考的這麼多，那暴力解試試？當然，試試就逝世，直接暴力解會 TLE，這是因為只要給定的圖稍大，計算時間會毫不意外地變很長，並且對於同一張圖，會有許多不同出發城市和目的城市的查詢，拿個 TLE 認證並不冤枉。</p>
+<h2 id="第二層">第二層</h2>
+<p>題目的敘述會誘導我們以路線的角度思考，但只要從路線的角度思考，就會遇到上面提到的問題，很容易讓人想要躺平放棄，既然這個方向令人頭禿，我們不妨換個角度思考。</p>
+<p>對於一個城市，只要能跟出發城市和目的城市「連通」，必然存在一條花費最小的路徑，這看起來像是廢話，但如果該城市是用來舉辦宴會的城市呢？此刻問題被轉換為求出發城市到該城市和該城市到目的城市的最短路徑問題，考慮宴會費用的約束，要在一個城市舉辦宴會，必須要保證所有經過城市的宴會費用都不比該城市高，這也是強調連通二字的原因。按此思路，我們只要對分別對所有城市（包含出發城市和目的城市），求出發城市到該城市和該城市到目的城市的最短路徑長度（別忘了約束），並加上該城市的宴會費用，再從中找數值最低的即為答案。</p>
+<p>實作上有兩種方式，一是用需要 <span class="math inline">\(O((|E|+|V|)log|V|)\)</span> 的 Dijkstra 演算法或需要 <span class="math inline">\(O(|E||V|)\)</span> 的 Bellman-Ford 演算法，執行 <span class="math inline">\(C^n_2\)</span> 次求得所有點間的最短路徑，再根據出發城市和目的城市進行每次 <span class="math inline">\(O(n)\)</span> 的查詢，二是用需要 <span class="math inline">\(O(|V|^3)\)</span> 的魔改 Floyd-Warshall 演算法，需要魔改之處為將宴會花費融入該動態規劃方法中，完成後，根據出發城市和目的城市進行每次 <span class="math inline">\(O(1)\)</span> 查詢即可。</p>
+<h1 id="結論">結論</h1>
+<p>本題初看是最短路徑的問題，再看不是最短路徑的問題，最後看還是最短路徑的問題，需要解題者轉換看問題的視角，否則會陷在看起來不是最短路徑的境界。</p>
+<h1 id="備註">備註</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/阿斯泰利克斯历险记">「阿斯泰利克斯歷險記」－標題中人名的出處</a></li>
+<li>上述最短路徑演算法的時間複雜度皆為最壞情況。</li>
+<li>用魔改的 Floyd-Warshall 演算法需要運行兩次（第二次不用初始化），不過到底為什麼需要兩次呢？</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/43165.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -193,7 +295,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-20 15:46:54" itemprop="dateModified" datetime="2021-03-20T15:46:54+08:00">2021-03-20</time>
+                <time title="修改時間：2021-03-28 15:33:00" itemprop="dateModified" datetime="2021-03-28T15:33:00+08:00">2021-03-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -231,7 +333,7 @@
 
       
           <h1 id="描述">描述</h1>
-<p>張三是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，張三的朋友為了打發時間，決定開發一個程式，計算從張三的家裡出發，最遠可以到達何處。給定 <span class="math inline">\(n\)</span> <span class="math inline">\((1 &lt; n ≤ 100)\)</span> 點以及數個有向的道路（並且這些道路不構成環），若張三的家位於點 <span class="math inline">\(s\)</span> <span class="math inline">\((1 ≤ s ≤ n)\)</span>，問張三可以走的最遠距離以及抵達的地點（取編號最小）為何。</p>
+<p>César 是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，César 的朋友為了打發時間，決定開發一個程式，計算從 César 的家裡出發，最遠可以到達何處。給定 <span class="math inline">\(n\)</span> <span class="math inline">\((1 &lt; n ≤ 100)\)</span> 點以及數個有向的道路（並且這些道路不構成環），若 César 的家位於點 <span class="math inline">\(s\)</span> <span class="math inline">\((1 ≤ s ≤ n)\)</span>，問 César 可以走的最遠距離以及最終抵達的地點（取編號最小）為何。</p>
 <h1 id="思路">思路</h1>
 <h2 id="第一層">第一層</h2>
 <p>直覺上，由於本題可以視為求解有向無環無權圖的最長路徑問題，直接使用深度優先搜索（DFS）或廣度優先搜索（BFS）就可以得到答案，但是絕大多數題目都沒有這麼簡單，而本題也不例外，不優化會得到 TLE 認證。</p>
@@ -240,7 +342,7 @@
 <h3 id="策略一提前放棄">策略一：提前放棄</h3>
 <p>假設 <span class="math inline">\(p \xrightarrow{} q\)</span>，則這些可到達的路徑中必有最長的，換而言之，如果第一次自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(q\)</span> 的長度為 <span class="math inline">\(l_1\)</span>，第二次自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(q\)</span> 的長度為 <span class="math inline">\(l_2\)</span>，若 <span class="math inline">\(l_1 \geq l_2\)</span>，表示第二次抵達 <span class="math inline">\(q\)</span> 後就可以提前放棄，因為不可能比第一次更長，如果還沒悟道的話，使 <span class="math inline">\(l\)</span> 為自 <span class="math inline">\(q\)</span> 出發可到達的最長距離，則 <span class="math inline">\(l_1 + l \geq l_2 + l\)</span> 在 <span class="math inline">\(l_1 \geq l_2\)</span> 的條件下必然成立，這就是真相。</p>
 <h3 id="策略二不走相同路">策略二：不走相同路</h3>
-<p>若 <span class="math inline">\(V&#39; = \{w \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: p \xrightarrow{} w\} = \{r_1, r_2, \dots, r_{|V&#39;|} \}\)</span>，如果自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_1\)</span> 的最長距離為 <span class="math inline">\(l_1\)</span>，自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_2\)</span> 的最長距離為 <span class="math inline">\(l_2\)</span>，依此類推，可以知道自 <span class="math inline">\(p\)</span> 出發可到達的最長距離為 <span class="math inline">\(l_{max} = max(l_1, l_2, \dots, l_{|V&#39;|})\)</span>，當知道 <span class="math inline">\(l_{max}\)</span> 後，倘若再次抵達 <span class="math inline">\(p\)</span> ，就不需繼續檢查以前已經走過的邊，直接把當前距離加上 <span class="math inline">\(l_{max}\)</span> 即可得到答案。</p>
+<p>若 <span class="math inline">\(V&#39; = \{v&#39; \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: p \xrightarrow{} v&#39;\} = \{r_1, r_2, \dots, r_{|V&#39;|} \}\)</span>，如果自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_1\)</span> 的最長距離為 <span class="math inline">\(l_1\)</span>，自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_2\)</span> 的最長距離為 <span class="math inline">\(l_2\)</span>，依此類推，可以知道自 <span class="math inline">\(p\)</span> 出發可到達的最長距離為 <span class="math inline">\(l_{max} = max(l_1, l_2, \dots, l_{|V&#39;|})\)</span>，當知道 <span class="math inline">\(l_{max}\)</span> 後，倘若再次抵達 <span class="math inline">\(p\)</span> ，就不需繼續檢查以前已經走過的邊，直接把當前距離加上 <span class="math inline">\(l_{max}\)</span> 即可得到答案。</p>
 <h3 id="策略三雙修">策略三：雙修</h3>
 <p>接下來展示同時使用兩種策略的好處，假設輸入如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">11</span><br><span class="line">1</span><br><span class="line">1 2</span><br><span class="line">1 4</span><br><span class="line">1 7</span><br><span class="line">2 3</span><br><span class="line">3 8</span><br><span class="line">4 5</span><br><span class="line">5 6</span><br><span class="line">6 8</span><br><span class="line">7 8</span><br><span class="line">8 9</span><br><span class="line">8 10</span><br><span class="line">10 11</span><br><span class="line">0 0</span><br></pre></td></tr></table></figure>
@@ -306,7 +408,8 @@ F &amp;= (1, 7, 8, 10, 11)
 <ul>
 <li>雖說 DFS 和 BFS 都可以實現策略一、二甚至雙修，不過 DFS 比較省心。</li>
 <li>每一點都需要紀錄相關數值，畢竟我們不會知道只需記錄哪些點。</li>
-<li>令 <span class="math inline">\(v&#39;&#39; \in \{w \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: s \xrightarrow{} w\}\)</span>，<span class="math inline">\(P\)</span> 為 <span class="math inline">\(G\)</span> 中所有滿足 <span class="math inline">\(s \xrightarrow{} v&#39;&#39;\)</span> 的路徑的集合，<span class="math inline">\(E&#39;\)</span> 為構成 <span class="math inline">\(P\)</span> 中所有路徑所需的邊的集合，準確來說，雙修只需檢查 <span class="math inline">\(E&#39;\)</span> 中的所有邊一次即可，不過因為 <span class="math inline">\(E&#39; \subseteq E\)</span>，所以 <span class="math inline">\(|E&#39;|\)</span> 的上下界與 <span class="math inline">\(|E|\)</span> 相同，都為 <span class="math inline">\(\left[1, \frac{n(n-1)}{2}\right]\)</span>。</li>
+<li>令 <span class="math inline">\(v&#39;&#39; \in \{v&#39; \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: s \xrightarrow{} v&#39;\}\)</span>，<span class="math inline">\(P\)</span> 為 <span class="math inline">\(G\)</span> 中所有滿足 <span class="math inline">\(s \xrightarrow{} v&#39;&#39;\)</span> 的路徑的集合，<span class="math inline">\(E&#39;\)</span> 為構成 <span class="math inline">\(P\)</span> 中所有路徑所需的邊的集合，準確來說，雙修只需檢查 <span class="math inline">\(E&#39;\)</span> 中的所有邊一次即可，不過因為 <span class="math inline">\(E&#39; \subseteq E\)</span>，所以 <span class="math inline">\(|E&#39;|\)</span> 的上下界與 <span class="math inline">\(|E|\)</span> 相同，都為 <span class="math inline">\(\left[1, \frac{n(n-1)}{2}\right]\)</span>。</li>
+<li>如果覺得文中缺乏 <span class="math inline">\(\forall\)</span> ，請自行腦補。</li>
 </ul>
 <h1 id="證明">證明</h1>
 <blockquote>
@@ -630,7 +733,7 @@ F &amp;= (1, 7, 8, 10, 11)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -643,7 +746,7 @@ F &amp;= (1, 7, 8, 10, 11)
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -679,12 +782,12 @@ F &amp;= (1, 7, 8, 10, 11)
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="總字數">6k</span>
+    <span title="總字數">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="所需總閱讀時間">6 分鐘</span>
+    <span title="所需總閱讀時間">7 分鐘</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
   </div>

@@ -18,20 +18,21 @@
     var CONFIG = {"hostname":"adnrs.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="描述 張三是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，張三的朋友為了打發時間，決定開發一個程式，計算從張三的家裡出發，最遠可以到達何處。給定 \(n\) \((1 &lt; n ≤ 100)\) 點以及數個有向的道路（並且這些道路不構成環），若張三的家位於點 \(s\) \((1 ≤ s ≤ n)\)，問張三可以走的最遠距離以及抵達的地點（取編號最小）為何。">
+  <meta name="description" content="描述 César 是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，César 的朋友為了打發時間，決定開發一個程式，計算從 César 的家裡出發，最遠可以到達何處。給定 \(n\) \((1 &lt; n ≤ 100)\) 點以及數個有向的道路（並且這些道路不構成環），若 César 的家位於點 \(s\) \((1 ≤ s ≤ n)\)，問 César 可以走">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UVa 10000: Longest Paths">
 <meta property="og:url" content="https://adnrs.github.io/UVa/43165.html">
 <meta property="og:site_name" content="Yeecy 程式雜筆">
-<meta property="og:description" content="描述 張三是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，張三的朋友為了打發時間，決定開發一個程式，計算從張三的家裡出發，最遠可以到達何處。給定 \(n\) \((1 &lt; n ≤ 100)\) 點以及數個有向的道路（並且這些道路不構成環），若張三的家位於點 \(s\) \((1 ≤ s ≤ n)\)，問張三可以走的最遠距離以及抵達的地點（取編號最小）為何。">
+<meta property="og:description" content="描述 César 是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，César 的朋友為了打發時間，決定開發一個程式，計算從 César 的家裡出發，最遠可以到達何處。給定 \(n\) \((1 &lt; n ≤ 100)\) 點以及數個有向的道路（並且這些道路不構成環），若 César 的家位於點 \(s\) \((1 ≤ s ≤ n)\)，問 César 可以走">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://adnrs.github.io/UVa/43165/figure1.png">
 <meta property="article:published_time" content="2021-03-18T14:56:01.000Z">
-<meta property="article:modified_time" content="2021-03-20T07:46:54.247Z">
+<meta property="article:modified_time" content="2021-03-28T07:33:00.432Z">
 <meta property="article:author" content="Yeecy">
 <meta property="article:tag" content="UVa">
 <meta property="article:tag" content="Depth first search">
 <meta property="article:tag" content="Breadth first search">
+<meta property="article:tag" content="Shortest path">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://adnrs.github.io/UVa/43165/figure1.png">
 
@@ -199,7 +200,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-20 15:46:54" itemprop="dateModified" datetime="2021-03-20T15:46:54+08:00">2021-03-20</time>
+                <time title="修改時間：2021-03-28 15:33:00" itemprop="dateModified" datetime="2021-03-28T15:33:00+08:00">2021-03-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +238,7 @@
 
       
         <h1 id="描述">描述</h1>
-<p>張三是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，張三的朋友為了打發時間，決定開發一個程式，計算從張三的家裡出發，最遠可以到達何處。給定 <span class="math inline">\(n\)</span> <span class="math inline">\((1 &lt; n ≤ 100)\)</span> 點以及數個有向的道路（並且這些道路不構成環），若張三的家位於點 <span class="math inline">\(s\)</span> <span class="math inline">\((1 ≤ s ≤ n)\)</span>，問張三可以走的最遠距離以及抵達的地點（取編號最小）為何。</p>
+<p>César 是個缺乏時間與距離觀念的人，要從一個地方到另一個地方時，往往會選擇最遠的那條路，César 的朋友為了打發時間，決定開發一個程式，計算從 César 的家裡出發，最遠可以到達何處。給定 <span class="math inline">\(n\)</span> <span class="math inline">\((1 &lt; n ≤ 100)\)</span> 點以及數個有向的道路（並且這些道路不構成環），若 César 的家位於點 <span class="math inline">\(s\)</span> <span class="math inline">\((1 ≤ s ≤ n)\)</span>，問 César 可以走的最遠距離以及最終抵達的地點（取編號最小）為何。</p>
 <h1 id="思路">思路</h1>
 <h2 id="第一層">第一層</h2>
 <p>直覺上，由於本題可以視為求解有向無環無權圖的最長路徑問題，直接使用深度優先搜索（DFS）或廣度優先搜索（BFS）就可以得到答案，但是絕大多數題目都沒有這麼簡單，而本題也不例外，不優化會得到 TLE 認證。</p>
@@ -246,7 +247,7 @@
 <h3 id="策略一提前放棄">策略一：提前放棄</h3>
 <p>假設 <span class="math inline">\(p \xrightarrow{} q\)</span>，則這些可到達的路徑中必有最長的，換而言之，如果第一次自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(q\)</span> 的長度為 <span class="math inline">\(l_1\)</span>，第二次自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(q\)</span> 的長度為 <span class="math inline">\(l_2\)</span>，若 <span class="math inline">\(l_1 \geq l_2\)</span>，表示第二次抵達 <span class="math inline">\(q\)</span> 後就可以提前放棄，因為不可能比第一次更長，如果還沒悟道的話，使 <span class="math inline">\(l\)</span> 為自 <span class="math inline">\(q\)</span> 出發可到達的最長距離，則 <span class="math inline">\(l_1 + l \geq l_2 + l\)</span> 在 <span class="math inline">\(l_1 \geq l_2\)</span> 的條件下必然成立，這就是真相。</p>
 <h3 id="策略二不走相同路">策略二：不走相同路</h3>
-<p>若 <span class="math inline">\(V&#39; = \{w \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: p \xrightarrow{} w\} = \{r_1, r_2, \dots, r_{|V&#39;|} \}\)</span>，如果自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_1\)</span> 的最長距離為 <span class="math inline">\(l_1\)</span>，自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_2\)</span> 的最長距離為 <span class="math inline">\(l_2\)</span>，依此類推，可以知道自 <span class="math inline">\(p\)</span> 出發可到達的最長距離為 <span class="math inline">\(l_{max} = max(l_1, l_2, \dots, l_{|V&#39;|})\)</span>，當知道 <span class="math inline">\(l_{max}\)</span> 後，倘若再次抵達 <span class="math inline">\(p\)</span> ，就不需繼續檢查以前已經走過的邊，直接把當前距離加上 <span class="math inline">\(l_{max}\)</span> 即可得到答案。</p>
+<p>若 <span class="math inline">\(V&#39; = \{v&#39; \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: p \xrightarrow{} v&#39;\} = \{r_1, r_2, \dots, r_{|V&#39;|} \}\)</span>，如果自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_1\)</span> 的最長距離為 <span class="math inline">\(l_1\)</span>，自 <span class="math inline">\(p\)</span> 出發，抵達 <span class="math inline">\(r_2\)</span> 的最長距離為 <span class="math inline">\(l_2\)</span>，依此類推，可以知道自 <span class="math inline">\(p\)</span> 出發可到達的最長距離為 <span class="math inline">\(l_{max} = max(l_1, l_2, \dots, l_{|V&#39;|})\)</span>，當知道 <span class="math inline">\(l_{max}\)</span> 後，倘若再次抵達 <span class="math inline">\(p\)</span> ，就不需繼續檢查以前已經走過的邊，直接把當前距離加上 <span class="math inline">\(l_{max}\)</span> 即可得到答案。</p>
 <h3 id="策略三雙修">策略三：雙修</h3>
 <p>接下來展示同時使用兩種策略的好處，假設輸入如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">11</span><br><span class="line">1</span><br><span class="line">1 2</span><br><span class="line">1 4</span><br><span class="line">1 7</span><br><span class="line">2 3</span><br><span class="line">3 8</span><br><span class="line">4 5</span><br><span class="line">5 6</span><br><span class="line">6 8</span><br><span class="line">7 8</span><br><span class="line">8 9</span><br><span class="line">8 10</span><br><span class="line">10 11</span><br><span class="line">0 0</span><br></pre></td></tr></table></figure>
@@ -312,7 +313,8 @@ F &amp;= (1, 7, 8, 10, 11)
 <ul>
 <li>雖說 DFS 和 BFS 都可以實現策略一、二甚至雙修，不過 DFS 比較省心。</li>
 <li>每一點都需要紀錄相關數值，畢竟我們不會知道只需記錄哪些點。</li>
-<li>令 <span class="math inline">\(v&#39;&#39; \in \{w \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: s \xrightarrow{} w\}\)</span>，<span class="math inline">\(P\)</span> 為 <span class="math inline">\(G\)</span> 中所有滿足 <span class="math inline">\(s \xrightarrow{} v&#39;&#39;\)</span> 的路徑的集合，<span class="math inline">\(E&#39;\)</span> 為構成 <span class="math inline">\(P\)</span> 中所有路徑所需的邊的集合，準確來說，雙修只需檢查 <span class="math inline">\(E&#39;\)</span> 中的所有邊一次即可，不過因為 <span class="math inline">\(E&#39; \subseteq E\)</span>，所以 <span class="math inline">\(|E&#39;|\)</span> 的上下界與 <span class="math inline">\(|E|\)</span> 相同，都為 <span class="math inline">\(\left[1, \frac{n(n-1)}{2}\right]\)</span>。</li>
+<li>令 <span class="math inline">\(v&#39;&#39; \in \{v&#39; \in \{v \in V \:\colon\: (v, q) \notin E\} \:\colon\: s \xrightarrow{} v&#39;\}\)</span>，<span class="math inline">\(P\)</span> 為 <span class="math inline">\(G\)</span> 中所有滿足 <span class="math inline">\(s \xrightarrow{} v&#39;&#39;\)</span> 的路徑的集合，<span class="math inline">\(E&#39;\)</span> 為構成 <span class="math inline">\(P\)</span> 中所有路徑所需的邊的集合，準確來說，雙修只需檢查 <span class="math inline">\(E&#39;\)</span> 中的所有邊一次即可，不過因為 <span class="math inline">\(E&#39; \subseteq E\)</span>，所以 <span class="math inline">\(|E&#39;|\)</span> 的上下界與 <span class="math inline">\(|E|\)</span> 相同，都為 <span class="math inline">\(\left[1, \frac{n(n-1)}{2}\right]\)</span>。</li>
+<li>如果覺得文中缺乏 <span class="math inline">\(\forall\)</span> ，請自行腦補。</li>
 </ul>
 <h1 id="證明">證明</h1>
 <blockquote>
@@ -333,6 +335,7 @@ F &amp;= (1, 7, 8, 10, 11)
               <a href="/tags/UVa/" rel="tag"># UVa</a>
               <a href="/tags/Depth-first-search/" rel="tag"># Depth first search</a>
               <a href="/tags/Breadth-first-search/" rel="tag"># Breadth first search</a>
+              <a href="/tags/Shortest-path/" rel="tag"># Shortest path</a>
           </div>
 
         
@@ -344,7 +347,10 @@ F &amp;= (1, 7, 8, 10, 11)
     <a href="/UVa/23252.html" rel="prev" title="UVa 10065: Useless Tile Packers">
       <i class="fa fa-chevron-left"></i> UVa 10065: Useless Tile Packers
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/UVa/43710.html" rel="next" title="UVa 10246: Asterix and Obelix">
+      UVa 10246: Asterix and Obelix <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -417,7 +423,7 @@ F &amp;= (1, 7, 8, 10, 11)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -430,7 +436,7 @@ F &amp;= (1, 7, 8, 10, 11)
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -466,12 +472,12 @@ F &amp;= (1, 7, 8, 10, 11)
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="總字數">6k</span>
+    <span title="總字數">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="所需總閱讀時間">6 分鐘</span>
+    <span title="所需總閱讀時間">7 分鐘</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
   </div>
