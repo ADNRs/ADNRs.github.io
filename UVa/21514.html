@@ -18,22 +18,21 @@
     var CONFIG = {"hostname":"adnrs.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="描述 有一瓦片，形狀為 \(N\) 點 \((3 \leq N \leq 100)\) 組成的簡單多邊形，用來裝該瓦片的容器，形狀為恰好能放入該瓦片的最小凸多邊形，問該瓦片放入容器後，在不考慮厚度的情況下，容器中會有多少百分比的面積浪費。 思路 浪費面積的百分比，為 \({(\text {容器面積} - \text {瓦片面積}) \over \text {容器面積}} \times 100">
+  <meta name="description" content="描述 給定一系列集合 \(\{1\}, \{2\}, \dots, \{n\}\) 和三類指令，指令一形如 \(1\;\;p\;\;q\)，若 \(p\) 和 \(q\) 屬同一集合，無視該指令，否則將 \(p\) 所屬集合和 \(q\) 所屬集合合併；指令二形如 \(2\;\;p\;\;q\)，若 \(p\) 和 \(q\) 屬同一集合，無視該指令，否則將 \(p\) 移動至 \(q\) 所屬">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UVa 10065: Useless Tile Packers">
-<meta property="og:url" content="https://adnrs.github.io/UVa/23252.html">
+<meta property="og:title" content="UVa 11987: Almost Union-Find">
+<meta property="og:url" content="https://adnrs.github.io/UVa/21514.html">
 <meta property="og:site_name" content="Yeecy 程式雜筆">
-<meta property="og:description" content="描述 有一瓦片，形狀為 \(N\) 點 \((3 \leq N \leq 100)\) 組成的簡單多邊形，用來裝該瓦片的容器，形狀為恰好能放入該瓦片的最小凸多邊形，問該瓦片放入容器後，在不考慮厚度的情況下，容器中會有多少百分比的面積浪費。 思路 浪費面積的百分比，為 \({(\text {容器面積} - \text {瓦片面積}) \over \text {容器面積}} \times 100">
+<meta property="og:description" content="描述 給定一系列集合 \(\{1\}, \{2\}, \dots, \{n\}\) 和三類指令，指令一形如 \(1\;\;p\;\;q\)，若 \(p\) 和 \(q\) 屬同一集合，無視該指令，否則將 \(p\) 所屬集合和 \(q\) 所屬集合合併；指令二形如 \(2\;\;p\;\;q\)，若 \(p\) 和 \(q\) 屬同一集合，無視該指令，否則將 \(p\) 移動至 \(q\) 所屬">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-03-14T12:29:54.000Z">
-<meta property="article:modified_time" content="2021-03-14T16:07:26.748Z">
+<meta property="article:published_time" content="2021-04-03T09:18:44.000Z">
+<meta property="article:modified_time" content="2021-04-03T09:21:10.254Z">
 <meta property="article:author" content="Yeecy">
 <meta property="article:tag" content="UVa">
-<meta property="article:tag" content="Computational geometry">
-<meta property="article:tag" content="Convex hull">
+<meta property="article:tag" content="Disjoint-set">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://adnrs.github.io/UVa/23252.html">
+<link rel="canonical" href="https://adnrs.github.io/UVa/21514.html">
 
 
 <script id="page-configurations">
@@ -46,7 +45,7 @@
   };
 </script>
 
-  <title>UVa 10065: Useless Tile Packers | Yeecy 程式雜筆</title>
+  <title>UVa 11987: Almost Union-Find | Yeecy 程式雜筆</title>
   
 
 
@@ -167,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/23252.html">
+    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/21514.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -180,7 +179,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          UVa 10065: Useless Tile Packers
+          UVa 11987: Almost Union-Find
         </h1>
 
         <div class="post-meta">
@@ -189,16 +188,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2021-03-14 20:29:54" itemprop="dateCreated datePublished" datetime="2021-03-14T20:29:54+08:00">2021-03-14</time>
+              <time title="創建時間：2021-04-03 17:18:44 / 修改時間：17:21:10" itemprop="dateCreated datePublished" datetime="2021-04-03T17:18:44+08:00">2021-04-03</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-15 00:07:26" itemprop="dateModified" datetime="2021-03-15T00:07:26+08:00">2021-03-15</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -215,14 +208,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">文章字數：</span>
-              <span>747</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="所需閱讀時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
-              <span>1 分鐘</span>
+              <span>2 分鐘</span>
             </span>
 
         </div>
@@ -235,25 +228,24 @@
 
       
         <h1 id="描述">描述</h1>
-<p>有一瓦片，形狀為 <span class="math inline">\(N\)</span> 點 <span class="math inline">\((3 \leq N \leq 100)\)</span> 組成的簡單多邊形，用來裝該瓦片的容器，形狀為恰好能放入該瓦片的最小凸多邊形，問該瓦片放入容器後，在不考慮厚度的情況下，容器中會有多少百分比的面積浪費。</p>
+<p>給定一系列集合 <span class="math inline">\(\{1\}, \{2\}, \dots, \{n\}\)</span> 和三類指令，指令一形如 <span class="math inline">\(1\;\;p\;\;q\)</span>，若 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 屬同一集合，無視該指令，否則將 <span class="math inline">\(p\)</span> 所屬集合和 <span class="math inline">\(q\)</span> 所屬集合合併；指令二形如 <span class="math inline">\(2\;\;p\;\;q\)</span>，若 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 屬同一集合，無視該指令，否則將 <span class="math inline">\(p\)</span> 移動至 <span class="math inline">\(q\)</span> 所屬集合；指令三形如 <span class="math inline">\(3\;\;p\)</span>，輸出 <span class="math inline">\(p\)</span> 所屬集合之元素個數及元素和。實作能以三類指令操作一系列集合的資料結構。</p>
 <h1 id="思路">思路</h1>
-<p>浪費面積的百分比，為 <span class="math inline">\({(\text {容器面積} - \text {瓦片面積}) \over \text {容器面積}} \times 100 \%\)</span>，因此我們首先需要知道瓦片和容器的面積。</p>
-<h2 id="簡單多邊形面積">簡單多邊形面積</h2>
-<p>由於瓦片是由 <span class="math inline">\(N\)</span> 點組成的簡單多邊形，因此它的面積可以由鞋帶公式（shoelace formula）得到：</p>
-<p><span class="math display">\[
-{area} = \frac{|{x_1}{y_2} - {x_2}{y_1} + {x_2}{y_3} - {x_3}{y_2} + \dots + {x_{n-1}}{y_{n}} - {x_{n}}{y_{n-1}} + {x_{n}}{y_1} - {x_1}{y_{n}}|}{2}
-\]</span></p>
-<p>注意到點必須按順時針或逆時針方向排序，若為逆時針，則分子的值為正，若為順時針，則分子的值為負，由於面積非負，所以需要對分子取絕對值。</p>
-<h2 id="凸包convex-hull">凸包（convex hull）</h2>
-<p>現在瓦片的面積已經知道，接下來要找到容器的面積。由於容器的形狀為恰好能放入瓦片的最小凸多邊形，這表示我們需要先尋找 <span class="math inline">\(N\)</span> 點的凸包，接著算出該凸包的面積。用來尋找凸包的演算法很多，可以參考文末連結，在實作演算法時，由於題目已經提及不會發生三點共線，並且所有點都位於第一象限或 <span class="math inline">\(+x\)</span> 軸或 <span class="math inline">\(+y\)</span> 軸上，因此不用顧慮太多。得到凸包後，套用上面的鞋帶公式即可求得面積，不過要注意凸包的點要先排序過，否則結果會是錯誤的。</p>
+<p>題目已經提到併查集（union-find，後以不交集 disjoint-set 稱之），而且規定的指令確實跟不交集相關，沒有欺詐，因此實作不交集即可。以下 <span class="math inline">\(P\)</span> 和 <span class="math inline">\(Q\)</span> 分別表示 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 的所屬集合，<span class="math inline">\(r_p\)</span> 和 <span class="math inline">\(r_q\)</span> 分別為 <span class="math inline">\(P\)</span> 中所有元素和 <span class="math inline">\(Q\)</span> 中所有元素的代表，並且 <span class="math inline">\(r_p \in P\)</span> 和 <span class="math inline">\(r_q \in Q\)</span>，默認以不交集森林（disjoint-set forest）作為儲存所有集合的結構。</p>
+<h2 id="指令一">指令一</h2>
+<p>指令一為標準的 union 方法，無特別之處，先利用 find 方法找到 <span class="math inline">\(r_p\)</span> 和 <span class="math inline">\(r_q\)</span>，再比較 <span class="math inline">\(r_p\)</span> 和 <span class="math inline">\(r_q\)</span> 就可知道 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 是否屬同一集合，若非屬同一集合，要固定將一方併入另一方，或採按秩合併（union by rank），端看個人喜好。</p>
+<h2 id="指令二">指令二</h2>
+<p>指令二不屬於不交集原有的操作，確定 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 是否屬同一集合的方法同指令一，確定兩者非屬同一集合後，若 <span class="math inline">\(p \neq r_p\)</span>，也就是 <span class="math inline">\(p\)</span> 不為森林中某棵樹的根節點時，此時只需將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span> 即可，但倘若 <span class="math inline">\(p = r_p\)</span>，也就是 <span class="math inline">\(p\)</span> 為森林中某棵樹的根結點時，將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span> 相當於將 <span class="math inline">\(P\)</span> 併入 <span class="math inline">\(Q\)</span> 中，而非只是簡單的移動，為了解決這個問題，至少有以下兩種思路。</p>
+<ol type="1">
+<li>先從 <span class="math inline">\(P\)</span> 中找非 <span class="math inline">\(p\)</span> 的元素 <span class="math inline">\(x\)</span> 作新代表，並把 <span class="math inline">\(P\)</span> 中所有非 <span class="math inline">\(p\)</span> 元素的代表更新為 <span class="math inline">\(x\)</span> ，再將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span>。</li>
+<li>使所有元素的代表都為不可移動的元素，如此一來就不會發生 <span class="math inline">\(p = r_p\)</span> 的情況。</li>
+</ol>
+<p>不難發現 1. 需要 <span class="math inline">\(|P| - 1\)</span> 次操作，一般情況下 <span class="math inline">\(|P| &lt; n\)</span>，以森林來說應該還是可接受的。</p>
+<p>至於要如何構造 2. 中的不可移動元素呢？其實方法很多很簡單，例如因為 <span class="math inline">\(n\)</span> 的上限為 <span class="math inline">\(100,000\)</span>，可以使用 <span class="math inline">\(100,000\)</span> 以上的數字為不可移動元素，舉例來說，將初始集合 <span class="math inline">\(\{1\}, \{2\}, \dots, \{n\}\)</span> 轉化為 <span class="math inline">\(\{100,001, 1\}, \{100,002, 2\}, \dots, \{100,000+n, n\}\)</span>，並以超過 <span class="math inline">\(100,000\)</span> 的數字作為代表，規避 <span class="math inline">\(p = r_p\)</span> 的情況，因為 <span class="math inline">\(p\)</span> 不可能會是 <span class="math inline">\(100,000\)</span> 以上的數字。</p>
+<p>如果不喜歡 <span class="math inline">\(100,000\)</span> 以上的數字，也可以用負數作代表，形如 <span class="math inline">\(\{-1, 1\}, \{-2, 2\}, \dots, \{-n, n\}\)</span>，原理相同，記得別將不可移動元素計入元素個數和元素和。這種方法雖然會讓空間增加一倍，但如果使用按秩合併和路徑壓縮（path compression，跟 find 方法有關），直覺告訴我這可以像 union 方法和 find 方法一樣在近似 <span class="math inline">\(O(1)\)</span> 的平均時間完成，反正一定比 1. 快。</p>
+<h2 id="指令三">指令三</h2>
+<p>指令三為計算元素數量及元素和，無特別之處，在進行指令一或指令二時，順便維護各個集合的元素個數和元素和，遇指令三找到 <span class="math inline">\(r_p\)</span> 後就可直接得到答案。</p>
 <h1 id="結論">結論</h1>
-<p>本題在思路上不算困難，但是要求解題者對上述的演算法有著清晰的理解，不然實作不出來也是白搭。</p>
-<h1 id="備註">備註</h1>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Simple_polygon">簡單多邊形</a></li>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Shoelace_formula">鞋帶公式</a></li>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Convex_hull_algorithms">凸包演算法</a></li>
-</ul>
+<p>不交集是種高效的資料結構，是 Kruskal 演算法的重要組成部分，假設以紅黑樹（red-black tree）模擬單個集合，則 union 需要 <span class="math inline">\(|P|\)</span> 次對 <span class="math inline">\(P\)</span> 的刪除和對 <span class="math inline">\(Q\)</span> 的插入，也就是需要大約 <span class="math inline">\(|P| \times (O(log\;|P|) + O(log\;|Q|))\)</span> 的平均時間，假設以雜湊表（hash table）模擬單個集合，則 union 需要大約 <span class="math inline">\(|P| \times (O(1) + O(1))\)</span> 的平均時間，但使用按秩合併和路徑壓縮的不交集森林只需 <span class="math inline">\(O(\alpha(n)) \approx O(1)\)</span> 的平均時間，因此雖然沒實際測試過，不過我認為用多個紅黑樹或雜湊表模擬所有集合是很有可能拿到 TLE 認證的。</p>
 
     </div>
 
@@ -264,8 +256,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/UVa/" rel="tag"># UVa</a>
-              <a href="/tags/Computational-geometry/" rel="tag"># Computational geometry</a>
-              <a href="/tags/Convex-hull/" rel="tag"># Convex hull</a>
+              <a href="/tags/Disjoint-set/" rel="tag"># Disjoint-set</a>
           </div>
 
         
@@ -274,13 +265,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/UVa/2917.html" rel="prev" title="UVa 12030: Help the Winners">
-      <i class="fa fa-chevron-left"></i> UVa 12030: Help the Winners
+    <a href="/UVa/43710.html" rel="prev" title="UVa 10246: Asterix and Obelix">
+      <i class="fa fa-chevron-left"></i> UVa 10246: Asterix and Obelix
     </a></div>
-      <div class="post-nav-item">
-    <a href="/UVa/43165.html" rel="next" title="UVa 10000: Longest Paths">
-      UVa 10000: Longest Paths <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -339,7 +327,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E5%96%AE%E5%A4%9A%E9%82%8A%E5%BD%A2%E9%9D%A2%E7%A9%8D"><span class="nav-number">2.1.</span> <span class="nav-text">簡單多邊形面積</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%B8%E5%8C%85convex-hull"><span class="nav-number">2.2.</span> <span class="nav-text">凸包（convex hull）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%82%99%E8%A8%BB"><span class="nav-number">4.</span> <span class="nav-text">備註</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E4%B8%80"><span class="nav-number">2.1.</span> <span class="nav-text">指令一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E4%BA%8C"><span class="nav-number">2.2.</span> <span class="nav-text">指令二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E4%B8%89"><span class="nav-number">2.3.</span> <span class="nav-text">指令三</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
