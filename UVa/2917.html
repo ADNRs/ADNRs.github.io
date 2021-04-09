@@ -26,7 +26,7 @@
 <meta property="og:description" content="描述 已知 \(1 \leq n \leq 15\)，令 \({A} &#x3D; [{a}_{i, j} ]_{n \times n}\)。若 \({a}_{i, j} &#x3D; 0\)，表第 \(i\) 件連衣裙與第 \(j\) 雙鞋子不搭；若為 \({a}_{i, j} &#x3D; 1\)，表搭；若為 \({a}_{i, j} &#x3D; 2\)，表超搭。一個可接受的選擇，必須是在所有連衣裙和鞋子都選中的情況下，所有裙鞋">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-03-09T15:12:00.000Z">
-<meta property="article:modified_time" content="2021-04-08T14:07:26.142Z">
+<meta property="article:modified_time" content="2021-04-09T11:29:12.490Z">
 <meta property="article:author" content="Yeecy">
 <meta property="article:tag" content="UVa">
 <meta property="article:tag" content="Depth first search">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-04-08 22:07:26" itemprop="dateModified" datetime="2021-04-08T22:07:26+08:00">2021-04-08</time>
+                <time title="修改時間：2021-04-09 19:29:12" itemprop="dateModified" datetime="2021-04-09T19:29:12+08:00">2021-04-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,9 +264,9 @@
 \end{bmatrix}
 \]</span> 當知道 <span class="math inline">\(\{1, 2, Permu(\{3, 4, 5\})\}\)</span> 的可接受選擇總數為 6 後，自然可以知道 <span class="math inline">\(\{2, 1, Permu(\{3, 4, 5\})\}\)</span> 的可接受選擇總數為 6，這是因為 <span class="math inline">\(\{1, 2\}\)</span> 的狀態為全部都搭（<span class="math inline">\({a}_{1, 2} = 1\)</span> 且 <span class="math inline">\({a}_{2, 1} = 1\)</span>），而 <span class="math inline">\(\{2, 1\}\)</span> 的狀態也為全部都搭。</p>
 <p>經過推論，現在令狀態 <span class="math inline">\(0\)</span> 為之前出現過不搭的搭配，狀態 <span class="math inline">\(1\)</span> 為之前只出現過搭的搭配，狀態 <span class="math inline">\(2\)</span> 為之前出現過超搭的搭配，使用狀態壓縮（state compression）來表達已經檢查過的搭配，例如 <span class="math inline">\(3 = b&#39;00011\)</span> 代表 <span class="math inline">\(\{1, 2\}\)</span> 或 <span class="math inline">\(\{2, 1\}\)</span> 已經檢查過，這等價於 <span class="math inline">\(\{Permu(\{3, 4, 5\})\}\)</span> 尚未檢查；<span class="math inline">\(14 = b&#39;11010\)</span> 代表 <span class="math inline">\(\{Permu(\{2, 4, 5\})\}\)</span> 中的至少一個序列已經檢查過，等價於 <span class="math inline">\(\{1, 3\}\)</span> 和 <span class="math inline">\(\{3, 1\}\)</span> 尚未檢查。</p>
-<p>有了以上設定，可以定義尋找表（lookup table），使其第一個索引為檢查過的搭配（或沒檢查過的，反正這兩種表述互補），第二個索引為狀態，儲存的值為在特定狀態下，尚未檢查過的搭配可以構成多少的可接受選擇，初始設置為 <span class="math inline">\(-1\)</span>（或某個可表達的負整數，開心就好），表示不存在，藉由尋找表的幫助，這個方法可以解決 TLE 的問題（耗費 <span class="math inline">\(0.200\)</span> 秒）。</p>
+<p>有了以上設定，可以定義尋找表（lookup table），使其第一個索引為檢查過的搭配（或沒檢查過的，反正這兩種表述互補），第二個索引為狀態，儲存的值為在特定狀態下，尚未檢查過的搭配可以構成多少的可接受選擇，初始設置為 <span class="math inline">\(-1\)</span>（或某個可表達的負整數，開心就好），表示不存在，藉由尋找表的幫助，這個方法可以解決 TLE 的問題。</p>
 <h2 id="第五層">第五層</h2>
-<p>實際上這個方法還能再優化，因為只要其中一個搭配超搭，整個選擇就是可接受的，依此特性，我們可以在第一次遇到超搭的搭配後，直接將可接受的選擇總數算出來，考慮 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span>，若 <span class="math inline">\({a}_{1, 1} = 2\)</span>，可以直接得知 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span> 都是可接受的，共有 <span class="math inline">\(P^{14}_{14} = 14! = 87,178,291,200\)</span> 種可接受選擇，不用進行後續檢查。由此可知對於某一選擇，在檢查 <span class="math inline">\(k - 1\)</span> 件連衣裙對應的搭配後，第一次發現其與相應鞋子超搭時，直接得出 <span class="math inline">\((n - k)!\)</span> 為與該序列前 <span class="math inline">\(k\)</span> 個數字相同的搭配的總和，當作有效的可接受選擇總數，最後加上提前算好 <span class="math inline">\(n!\)</span> 的具體數值，可以有效減少運算時間（耗費 <span class="math inline">\(0.120\)</span> 秒），並且如此一來，狀態 <span class="math inline">\(2\)</span> 可以移除，降低 <span class="math inline">\({1 \over 3}\)</span> 尋找表需要的記憶體。</p>
+<p>實際上這個方法還能再優化，因為只要其中一個搭配超搭，整個選擇就是可接受的，依此特性，我們可以在第一次遇到超搭的搭配後，直接將可接受的選擇總數算出來，考慮 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span>，若 <span class="math inline">\({a}_{1, 1} = 2\)</span>，可以直接得知 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span> 都是可接受的，共有 <span class="math inline">\(P^{14}_{14} = 14! = 871,7829,1200\)</span> 種可接受選擇，不用進行後續檢查。由此可知對於某一選擇，在檢查 <span class="math inline">\(k - 1\)</span> 件連衣裙對應的搭配後，第一次發現其與相應鞋子超搭時，直接得出 <span class="math inline">\((n - k)!\)</span> 為與該序列前 <span class="math inline">\(k\)</span> 個數字相同的搭配的總和，當作有效的可接受選擇總數，最後加上提前算好 <span class="math inline">\(n!\)</span> 的具體數值，可以有效減少運算時間，並且如此一來，狀態 <span class="math inline">\(2\)</span> 可以移除，降低 <span class="math inline">\({1 \over 3}\)</span> 尋找表需要的記憶體。</p>
 <h1 id="結論">結論</h1>
 <p>本問題看似複雜，實際上能用自頂向下，帶尋找表和剪枝（遇 <span class="math inline">\(2\)</span> 直接算，其實查表也可算做剪枝）的遞迴解法解決，如果能夠改寫出自底向上的動態規劃解法，除去遞迴的開銷，運算的時間應該還能夠更少。</p>
 <h1 id="備註">備註</h1>
