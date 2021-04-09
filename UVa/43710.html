@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://adnrs.github.io/UVa/43710/fig2.png">
 <meta property="og:image" content="https://adnrs.github.io/UVa/43710/fig4.png">
 <meta property="article:published_time" content="2021-03-28T16:16:57.000Z">
-<meta property="article:modified_time" content="2021-04-02T13:26:03.532Z">
+<meta property="article:modified_time" content="2021-04-08T17:15:29.282Z">
 <meta property="article:author" content="Yeecy">
 <meta property="article:tag" content="UVa">
 <meta property="article:tag" content="Shortest path">
@@ -204,7 +204,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-04-02 21:26:03" itemprop="dateModified" datetime="2021-04-02T21:26:03+08:00">2021-04-02</time>
+                <time title="修改時間：2021-04-09 01:15:29" itemprop="dateModified" datetime="2021-04-09T01:15:29+08:00">2021-04-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,9 +256,9 @@
 <p>對於一個城市，只要能跟出發城市和目的城市「連通」，必然存在一條花費最小的路徑，這看起來像是廢話，但如果該城市是用來舉辦宴會的城市呢？此刻問題被轉換為求出發城市到該城市和該城市到目的城市的最短路徑問題，要在一個城市舉辦宴會，必須要保證所有經過城市的宴會費用都不比該城市高，此為重要的約束條件，是強調連通二字的原因。按此思路，我們只要分別對所有城市（包含出發城市和目的城市），求出發城市到該城市和該城市到目的城市的最短路徑長度（別忘了約束），並加上該城市的宴會費用，再從中找數值最低的即為答案。</p>
 <p>以 <span class="math inline">\(cost(c_i)\)</span> 表 <span class="math inline">\(c_i\)</span> 城市舉辦宴會的費用，<span class="math inline">\(d(c_i, c_j)\)</span> 表 <span class="math inline">\(c_i\)</span> 城市到 <span class="math inline">\(c_j\)</span> 城市且沿途城市的費用都不超過 <span class="math inline">\(cost(c_i)\)</span> 的最短路徑的長度，則本題的答案可以由</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{equation}
 \min_{c_n \in V}\; (d(c_n, c_s) + d(c_n, c_e) + cost(c_n))
-\end{align}
+\end{equation}
 \]</span></p>
 <p>給出，其中 <span class="math inline">\(V\)</span> 為所有城市構成的集合。</p>
 <p>實作上有兩種方式，一是用需要 <span class="math inline">\(O((|E|+|V|)log|V|)\)</span> 的 Dijkstra 演算法或需要 <span class="math inline">\(O(|E||V|)\)</span> 的 Bellman-Ford 演算法，執行 <span class="math inline">\(C^{|V|}_2\)</span> 次求得所有點間的最短路徑，再根據出發城市和目的城市進行每次 <span class="math inline">\(O(n)\)</span> 的查詢，二是用需要 <span class="math inline">\(O(|V|^3)\)</span> 的魔改 Floyd-Warshall 演算法，需要魔改之處為將宴會花費融入該動態規劃方法中，完成後，根據出發城市和目的城市進行每次 <span class="math inline">\(O(1)\)</span> 查詢即可。</p>
@@ -617,7 +617,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -666,12 +666,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="總字數">12k</span>
+    <span title="總字數">16k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="所需總閱讀時間">11 分鐘</span>
+    <span title="所需總閱讀時間">15 分鐘</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
   </div>

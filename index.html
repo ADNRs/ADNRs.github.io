@@ -162,6 +162,221 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/63643.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yeecy">
+      <meta itemprop="description" content="紀錄寫 bug 的日常">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yeecy 程式雜筆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/UVa/63643.html" class="post-title-link" itemprop="url">UVa 10090: Marbles</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2021-04-09 16:27:37" itemprop="dateCreated datePublished" datetime="2021-04-09T16:27:37+08:00">2021-04-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UVa/" itemprop="url" rel="index"><span itemprop="name">UVa</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="文章字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">文章字數：</span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="所需閱讀時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+              <span>4 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="描述">描述</h1>
+<p>給定 <span class="math inline">\(n\)</span> 顆彈珠和兩種盒子，且兩種盒子的花費和容量分別為 <span class="math inline">\(c_1\)</span>、<span class="math inline">\(c_2\)</span> 和 <span class="math inline">\(n_1\)</span>、<span class="math inline">\(n_2\)</span>，其中 <span class="math inline">\(n\)</span>、<span class="math inline">\(c_1\)</span>、<span class="math inline">\(c_2\)</span>、<span class="math inline">\(n_1\)</span> 和 <span class="math inline">\(n_2\)</span> 都是正整數，現在用數量不定的兩種盒子裝彈珠，並且所有盒子都必須裝滿，若能辦到，問在最低花費下，兩種盒子的所需個數為多少。</p>
+<h1 id="思路">思路</h1>
+<p>令 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 分別為兩種盒子所需的數量，則題目可以表述為</p>
+<p><span class="math display">\[
+\begin{equation}
+\underset{p, q}{\mathrm{argmin}}\; f(p, q) = c_1 p + c_2 q
+\end{equation}
+\]</span></p>
+<p>且 <span class="math inline">\(p, q \in \mathbb{Z}^{0+}\)</span> 並同時滿足</p>
+<p><span class="math display">\[
+\begin{equation}
+n_1 p + n_2 q = n
+\end{equation}
+\]</span></p>
+<h2 id="第一層">第一層</h2>
+<p>既然 <span class="math inline">\(n\)</span> 的上限是 <span class="math inline">\(20,0000,0000\)</span>，就不浪費篇幅討論暴力解了，直接進入主題。</p>
+<h2 id="第二層">第二層</h2>
+<p>式 <span class="math inline">\((2)\)</span> 顯然為二元一次丟番圖方程式，並且容易想到（？）貝祖等式，貝祖等式的內容為</p>
+<blockquote>
+<p>令 <span class="math inline">\(a\)</span> 和 <span class="math inline">\(b\)</span> 為整數且兩者的最大公因數為 <span class="math inline">\(d\)</span>，則存在整數 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(y\)</span> 使得 <span class="math inline">\(a x + b y = d\)</span>。</p>
+</blockquote>
+<p>據此有</p>
+<p><span class="math display">\[
+\begin{equation}
+n_1 p&#39; + n_2 q&#39; = gcd(n_1, n_2)
+\end{equation}
+\]</span></p>
+<p>觀察式 <span class="math inline">\((2)\)</span> 和式 <span class="math inline">\((3)\)</span>，兩者的不同在於等號右邊分別為 <span class="math inline">\(n\)</span> 和 <span class="math inline">\(gcd(n_1, n_2)\)</span>，當 <span class="math inline">\(n\)</span> 為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍時，式 <span class="math inline">\((2)\)</span> 必然會有整數解，即 <span class="math inline">\((p, q) = r(p&#39;, q&#39;)\)</span>，其中 r 為整數。但是如果 <span class="math inline">\(n\)</span> 不為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍時，式 <span class="math inline">\((2)\)</span> 會有整數解嗎？答案為否，這是因為 <span class="math inline">\(n\)</span> 為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍是式 <span class="math inline">\((2)\)</span> 有整數解的必要條件（見證明：命題一），所以找到 <span class="math inline">\(gcd(n_1, n_2)\)</span> 是當前的首要目標。</p>
+<p>利用擴展歐幾里得演算法，可以在求得 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的同時，得到一組滿足式 <span class="math inline">\((3)\)</span> 的解，稱其為 <span class="math inline">\((p_0&#39;, q_0&#39;)\)</span>（這又被稱為 <span class="math inline">\((n_1, n_2)\)</span> 的一組貝祖係數）。若 <span class="math inline">\(n\)</span> 模除 <span class="math inline">\(gcd(n_1, n_2)\)</span> 不為 <span class="math inline">\(0\)</span>，表無論 <span class="math inline">\(n_1\)</span> 和 <span class="math inline">\(n_2\)</span> 怎樣組合都不會得到 <span class="math inline">\(n\)</span>，也就是失敗；若為 <span class="math inline">\(0\)</span>，則可以透過將 <span class="math inline">\((p_0&#39;, q_0&#39;)\)</span> 乘上 <span class="math inline">\(\frac{n}{gcd(n_1, n_2)}\)</span> 得到一組滿足式 <span class="math inline">\((2)\)</span> 的解，稱其為 <span class="math inline">\((p_0, q_0)\)</span>。</p>
+<p>考慮式 <span class="math inline">\((2)\)</span>，知道其法向量為 <span class="math inline">\((n_1, n_2)\)</span>，根據兩正交向量內積為 <span class="math inline">\(0\)</span> 的性質，可以算出其方向向量可為 <span class="math inline">\((-n_2, n_1)\)</span>，利用方向向量和 <span class="math inline">\((p_0, q_0)\)</span> 得到其參數式為</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+p = p_0 - n_2 t \\
+q = q_0 + n_1 t
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>由於 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 為非負整數，故 <span class="math inline">\(t\)</span> 的取值範圍並非為全體實數，但也不是整數，為什麼呢？先考慮 <span class="math inline">\(p\)</span>，因為 <span class="math inline">\(p_0\)</span> 為整數，為使 <span class="math inline">\(p\)</span> 為整數，則 <span class="math inline">\(n_2 t\)</span> 也得為整數，考慮 <span class="math inline">\(n_2 t\)</span> 可以形成的最小正整數為 <span class="math inline">\(n_2 \over gcd(n_1, n_2)\)</span>，因為 <span class="math inline">\(n_2\)</span> 是整數，所以 <span class="math inline">\(t\)</span> 必須是以 <span class="math inline">\(gcd(n_1, n_2)\)</span> 為分母，任意整數為分子的分數，為方便討論，把分母移給 <span class="math inline">\(n_2\)</span>，令 <span class="math inline">\(t&#39;\)</span> 為 <span class="math inline">\(t\)</span> 的分子，這樣對任意整數 <span class="math inline">\(t&#39;\)</span>，可以得到相應的整數 <span class="math inline">\(p\)</span>，同理，<span class="math inline">\(q\)</span> 也能以 <span class="math inline">\(t&#39;\)</span> 表示，改寫式 <span class="math inline">\((4)\)</span> 得</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+p = p_0 - \frac{n_2}{gcd(n_1, n_2)} t&#39; \\
+q = q_0 + \frac{n_1}{gcd(n_1, n_2)} t&#39;
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>把式 <span class="math inline">\((5)\)</span> 帶入 <span class="math inline">\(f(p, q)\)</span>，得到</p>
+<p><span class="math display">\[
+\begin{eqnarray}
+f(p, q) &amp;=&amp; c_1 p + c_2 q \nonumber \\
+        &amp;=&amp; c_1(p_0 - \frac{n_2}{gcd(n_1, n_2)} t&#39;) + c_2(q_0 + \frac{n_1}{gcd(n_1, n_2)} t&#39;) \nonumber \\
+        &amp;=&amp; (c_1 p_0 + c_2 q_0) + (\frac{-c_1 n_2 + c_2 n_1}{gcd(n_1, n_2)}) t&#39; \\
+        &amp;=&amp; g(t&#39;) \nonumber
+\end{eqnarray}
+\]</span></p>
+<p>帶入後，原本關於 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 的函數轉變為關於 <span class="math inline">\(t&#39;\)</span> 的函數，同時不難發現 <span class="math inline">\(c_1 p_0 + c_2 q_0\)</span> 和 <span class="math inline">\(\frac{-c_1 n_2 + c_2 n_1}{gcd(n_1, n_2)}\)</span> 都為整數常數，也就是說 <span class="math inline">\(g(t&#39;)\)</span> 是線性的，那麼只要知道 <span class="math inline">\(t&#39;\)</span> 的上下界並帶入 <span class="math inline">\(g(t&#39;)\)</span>，就可知道 <span class="math inline">\(g(t&#39;)\)</span> 是嚴格遞增或嚴格遞減函數，並得知最小值發生在何處。</p>
+<p>現在來推 <span class="math inline">\(t&#39;\)</span> 的範圍，考慮 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 不能為負數，有 <span class="math inline">\(p \ge 0\)</span> 和 <span class="math inline">\(q \ge 0\)</span>，綜合式 <span class="math inline">\((5)\)</span> 有</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+p = p_0 - \frac{n_2}{gcd(n_1, n_2)} t&#39; \ge 0 \\
+q = q_0 + \frac{n_1}{gcd(n_1, n_2)} t&#39; \ge 0
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>整理式 <span class="math inline">\((7)\)</span>，得到</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+t&#39; \le \left \lceil{\frac{p_0 \times gcd(n_1, n_2)}{n_2}}\right \rceil \\
+t&#39; \ge \left \lfloor{\frac{-q_0 \times gcd(n_1, n_2)}{n_1}}\right \rfloor
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>所以 <span class="math inline">\(t&#39;\)</span> 的範圍為 <span class="math inline">\(\left \lceil{\frac{p_0 \times gcd(n_1, n_2)}{n_2}}\right \rceil \le t&#39; \le \left \lfloor{\frac{-q_0 \times gcd(n_1, n_2)}{n_1}}\right \rfloor\)</span>，若該範圍中不存在任何整數，表失敗，否則按前述方法求得 <span class="math inline">\(t&#39;_{min}\)</span>，再把 <span class="math inline">\(t&#39;_{min}\)</span> 帶入式 <span class="math inline">\((5)\)</span> 回推得出 <span class="math inline">\(p_{min}\)</span> 和 <span class="math inline">\(q_{min}\)</span>，即為式 <span class="math inline">\((1)\)</span> 的答案。</p>
+<h2 id="範例">範例</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1024</span><br><span class="line">24 34</span><br><span class="line">15 20</span><br></pre></td></tr></table></figure>
+<p>A. 求 <span class="math inline">\(gcd(34, 20)\)</span>，得到 <span class="math inline">\(gcd(34, 20) = 2\)</span>。</p>
+<p><span class="math display">\[
+\begin{array}{}
+34 &amp;\div&amp; 20 &amp;=&amp; 1 &amp;\dots&amp; 14 \\
+20 &amp;\div&amp; 14 &amp;=&amp; 1 &amp;\dots&amp; 6 \\
+14 &amp;\div&amp; 6 &amp;=&amp; 2 &amp;\dots&amp; 2 \\
+6 &amp;\div&amp; 2 &amp;=&amp; 3 &amp;\dots&amp; 0 \\
+\end{array}
+\]</span></p>
+<p>B. 藉由回推求 <span class="math inline">\(gcd(34, 20)\)</span> 的過程得到 <span class="math inline">\((34, 20)\)</span> 的一組貝祖係數 <span class="math inline">\((3, -5)\)</span>。</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+gcd(34, 20) &amp;=&amp; 2 \\
+            &amp;=&amp; 14 - 2 \times 6\\
+            &amp;=&amp; 14 - 2 \times (20 - 14) \\
+            &amp;=&amp; 3 \times 14 - 2 \times 20 \\
+            &amp;=&amp; 3 \times (34 - 20) - 2 \times 20 \\
+            &amp;=&amp; 3 \times 34 - 5 \times 20 \\
+            &amp;=&amp; 3 \times 34 + (-5) \times 20
+\end{eqnarray*}
+\]</span></p>
+<p>C. <span class="math inline">\(1024\)</span> 模除 <span class="math inline">\(2\)</span> 為 <span class="math inline">\(0\)</span>，繼續。</p>
+<p>D. 求 <span class="math inline">\((p_0, q_0)\)</span>，得 <span class="math inline">\((p_0, q_0) = \frac{1024}{2} \times (3, -5) = (1536, -2560)\)</span>。</p>
+<p>E. 求 <span class="math inline">\(\left \lceil{\frac{-(-2560 \times 2)}{34}}\right \rceil \le t&#39; \le \left \lfloor{\frac{1536 \times 2}{20}}\right \rfloor\)</span>，得 <span class="math inline">\(151 \le t&#39; \le 153\)</span>，繼續。</p>
+<p>F. 由於 <span class="math inline">\(g(151) = 729 &lt; g(153) = 759\)</span>，取 <span class="math inline">\(t&#39;_{min} = 151\)</span>。</p>
+<p>G. 將 <span class="math inline">\(t&#39;_{min}\)</span> 帶入式 <span class="math inline">\((5)\)</span>，得到答案為 <span class="math inline">\((26, 7)\)</span>。</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+(p_{min}, q_{min}) &amp;=&amp; (1536 - \frac{20}{2} \times 151, -2560 + \frac{34}{2} \times 151) \\
+                   &amp;=&amp; (26, 7)
+\end{eqnarray*}
+\]</span></p>
+<h1 id="結論">結論</h1>
+<p>本題結合了數論與函數的應用，可謂是相當精彩，除非有超強的數學直覺，否則在不知道貝祖定理、擴展歐幾里得演算法或數學推理能力不足的情況下（完全在說我自己），要解出本題是有些難度的。</p>
+<h1 id="備註">備註</h1>
+<ul>
+<li>文中關於貝祖等式的說明翻譯自 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity">Bézout's identity</a>。</li>
+<li>當 <span class="math inline">\(n &lt; n_1\)</span> 且 <span class="math inline">\(n &lt; n_2\)</span> 時表失敗，我怕汙辱大家智商，就沒在文中給出，不過不檢查此項並不會影響正確性。</li>
+<li><span class="math inline">\(g(t&#39;)\)</span> 不會是水平線，因為題目表明當式 <span class="math inline">\((1)\)</span> 有解時，可以假設其解唯一。</li>
+<li>範例的 A. 和 B. 在擴展歐幾里得演算法中是同時進行的。</li>
+</ul>
+<h1 id="證明">證明</h1>
+<blockquote>
+<p>命題一：若 <span class="math inline">\(n_1 p + n_2 q = n\)</span> 存在整數解，則 <span class="math inline">\(n\)</span> 為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍。</p>
+</blockquote>
+<blockquote>
+<p>令 <span class="math inline">\(d\)</span> 表 <span class="math inline">\(gcd(n_1, n_2)\)</span>，因為 <span class="math inline">\(n_1\)</span> 和 <span class="math inline">\(n_2\)</span> 為 <span class="math inline">\(d\)</span> 的整數倍，不仿設 <span class="math inline">\(n_1 = r_1 d\)</span> 和 <span class="math inline">\(n_2 = r_2 d\)</span>，其中 <span class="math inline">\(r_1, r_2 \in \mathbb{Z}\)</span>。由於存在整數解使得 <span class="math inline">\(n_1 p + n_2 q = n\)</span> 成立，故 <span class="math inline">\((r_1 d) p + (r_2 d) q = n\)</span> 也成立，整理得 <span class="math inline">\(n = (r_1 p + r_2 q)d\)</span>，顯然 <span class="math inline">\((r_1 p + r_2 q)\)</span> 為一整數，證畢。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/21514.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -185,10 +400,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
-              
 
-              <time title="創建時間：2021-04-03 17:18:44 / 修改時間：17:21:10" itemprop="dateCreated datePublished" datetime="2021-04-03T17:18:44+08:00">2021-04-03</time>
+              <time title="創建時間：2021-04-03 17:18:44" itemprop="dateCreated datePublished" datetime="2021-04-03T17:18:44+08:00">2021-04-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-04-08 22:04:38" itemprop="dateModified" datetime="2021-04-08T22:04:38+08:00">2021-04-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -231,14 +452,14 @@
 <h2 id="指令一">指令一</h2>
 <p>指令一為標準的 union 方法，無特別之處，先利用 find 方法找到 <span class="math inline">\(r_p\)</span> 和 <span class="math inline">\(r_q\)</span>，再比較 <span class="math inline">\(r_p\)</span> 和 <span class="math inline">\(r_q\)</span> 就可知道 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 是否屬同一集合，若非屬同一集合，要固定將一方併入另一方，或採按秩合併（union by rank），端看個人喜好。</p>
 <h2 id="指令二">指令二</h2>
-<p>指令二不屬於不交集原有的操作，確定 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 是否屬同一集合的方法同指令一，確定兩者非屬同一集合後，若 <span class="math inline">\(p \neq r_p\)</span>，也就是 <span class="math inline">\(p\)</span> 不為森林中某棵樹的根節點時，此時只需將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span> 即可，但倘若 <span class="math inline">\(p = r_p\)</span>，也就是 <span class="math inline">\(p\)</span> 為森林中某棵樹的根結點時，將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span> 相當於將 <span class="math inline">\(P\)</span> 併入 <span class="math inline">\(Q\)</span> 中，而非只是簡單的移動，為了解決這個問題，至少有以下兩種思路。</p>
+<p>指令二不屬於不交集原有的操作，確定 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 是否屬同一集合的方法同指令一，在確定兩者非屬同一集合後，若 <span class="math inline">\(p \neq r_p\)</span>，也就是 <span class="math inline">\(p\)</span> 不為森林中某棵樹的根節點時，此時只需將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span> 即可，但倘若 <span class="math inline">\(p = r_p\)</span>，也就是 <span class="math inline">\(p\)</span> 為森林中某棵樹的根結點時，將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span> 相當於將 <span class="math inline">\(P\)</span> 併入 <span class="math inline">\(Q\)</span> 中，而非只是簡單的移動，為了解決這個問題，至少有以下兩種思路。</p>
 <ol type="1">
 <li>先從 <span class="math inline">\(P\)</span> 中找非 <span class="math inline">\(p\)</span> 的元素 <span class="math inline">\(x\)</span> 作新代表，並把 <span class="math inline">\(P\)</span> 中所有非 <span class="math inline">\(p\)</span> 元素的代表更新為 <span class="math inline">\(x\)</span> ，再將 <span class="math inline">\(p\)</span> 的代表設為 <span class="math inline">\(r_q\)</span>。</li>
 <li>使所有元素的代表都為不可移動的元素，如此一來就不會發生 <span class="math inline">\(p = r_p\)</span> 的情況。</li>
 </ol>
 <p>不難發現 1. 需要 <span class="math inline">\(|P| - 1\)</span> 次操作，一般情況下 <span class="math inline">\(|P| &lt; n\)</span>，以森林來說應該還是可接受的。</p>
-<p>至於要如何構造 2. 中的不可移動元素呢？其實方法很多很簡單，例如因為 <span class="math inline">\(n\)</span> 的上限為 <span class="math inline">\(100,000\)</span>，可以使用 <span class="math inline">\(100,000\)</span> 以上的數字為不可移動元素，舉例來說，將初始集合 <span class="math inline">\(\{1\}, \{2\}, \dots, \{n\}\)</span> 轉化為 <span class="math inline">\(\{100,001, 1\}, \{100,002, 2\}, \dots, \{100,000+n, n\}\)</span>，並以超過 <span class="math inline">\(100,000\)</span> 的數字作為代表，規避 <span class="math inline">\(p = r_p\)</span> 的情況，因為 <span class="math inline">\(p\)</span> 不可能會是 <span class="math inline">\(100,000\)</span> 以上的數字。</p>
-<p>如果不喜歡 <span class="math inline">\(100,000\)</span> 以上的數字，也可以用負數作代表，形如 <span class="math inline">\(\{-1, 1\}, \{-2, 2\}, \dots, \{-n, n\}\)</span>，原理相同，記得別將不可移動元素計入元素個數和元素和。這種方法雖然會讓空間增加一倍，但如果使用按秩合併和路徑壓縮（path compression，跟 find 方法有關），直覺告訴我這可以像 union 方法和 find 方法一樣在近似 <span class="math inline">\(O(1)\)</span> 的平均時間完成，反正一定比 1. 快。</p>
+<p>至於要如何構造 2. 中的不可移動元素呢？其實方法很多很簡單，例如因為 <span class="math inline">\(n\)</span> 的上限為 <span class="math inline">\(10,0000\)</span>，可以使用 <span class="math inline">\(10,0000\)</span> 以上的數字為不可移動元素，舉例來說，將初始集合 <span class="math inline">\(\{1\}, \{2\}, \dots, \{n\}\)</span> 轉化為 <span class="math inline">\(\{10,0001, 1\}, \{10,0002, 2\}, \dots, \{10,0000+n, n\}\)</span>，並以超過 <span class="math inline">\(10,0000\)</span> 的數字作為代表，規避 <span class="math inline">\(p = r_p\)</span> 的情況，因為 <span class="math inline">\(p\)</span> 不可能會是 <span class="math inline">\(10,0000\)</span> 以上的數字。</p>
+<p>如果不喜歡 <span class="math inline">\(10,0000\)</span> 以上的數字，也可以用負數作代表，形如 <span class="math inline">\(\{-1, 1\}, \{-2, 2\}, \dots, \{-n, n\}\)</span>，原理相同，記得別將不可移動元素計入元素個數和元素和。這種方法雖然會讓空間增加一倍，但如果使用按秩合併和路徑壓縮（path compression，跟 find 方法有關），直覺告訴我這可以像 union 方法和 find 方法一樣在近似 <span class="math inline">\(O(1)\)</span> 的平均時間完成，反正一定比 1. 快。</p>
 <h2 id="指令三">指令三</h2>
 <p>指令三為計算元素數量及元素和，無特別之處，在進行指令一或指令二時，順便維護各個集合的元素個數和元素和，遇指令三找到 <span class="math inline">\(r_p\)</span> 後就可直接得到答案。</p>
 <h1 id="結論">結論</h1>
@@ -293,7 +514,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-04-02 21:26:03" itemprop="dateModified" datetime="2021-04-02T21:26:03+08:00">2021-04-02</time>
+                <time title="修改時間：2021-04-09 01:15:29" itemprop="dateModified" datetime="2021-04-09T01:15:29+08:00">2021-04-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -345,9 +566,9 @@
 <p>對於一個城市，只要能跟出發城市和目的城市「連通」，必然存在一條花費最小的路徑，這看起來像是廢話，但如果該城市是用來舉辦宴會的城市呢？此刻問題被轉換為求出發城市到該城市和該城市到目的城市的最短路徑問題，要在一個城市舉辦宴會，必須要保證所有經過城市的宴會費用都不比該城市高，此為重要的約束條件，是強調連通二字的原因。按此思路，我們只要分別對所有城市（包含出發城市和目的城市），求出發城市到該城市和該城市到目的城市的最短路徑長度（別忘了約束），並加上該城市的宴會費用，再從中找數值最低的即為答案。</p>
 <p>以 <span class="math inline">\(cost(c_i)\)</span> 表 <span class="math inline">\(c_i\)</span> 城市舉辦宴會的費用，<span class="math inline">\(d(c_i, c_j)\)</span> 表 <span class="math inline">\(c_i\)</span> 城市到 <span class="math inline">\(c_j\)</span> 城市且沿途城市的費用都不超過 <span class="math inline">\(cost(c_i)\)</span> 的最短路徑的長度，則本題的答案可以由</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{equation}
 \min_{c_n \in V}\; (d(c_n, c_s) + d(c_n, c_e) + cost(c_n))
-\end{align}
+\end{equation}
 \]</span></p>
 <p>給出，其中 <span class="math inline">\(V\)</span> 為所有城市構成的集合。</p>
 <p>實作上有兩種方式，一是用需要 <span class="math inline">\(O((|E|+|V|)log|V|)\)</span> 的 Dijkstra 演算法或需要 <span class="math inline">\(O(|E||V|)\)</span> 的 Bellman-Ford 演算法，執行 <span class="math inline">\(C^{|V|}_2\)</span> 次求得所有點間的最短路徑，再根據出發城市和目的城市進行每次 <span class="math inline">\(O(n)\)</span> 的查詢，二是用需要 <span class="math inline">\(O(|V|^3)\)</span> 的魔改 Floyd-Warshall 演算法，需要魔改之處為將宴會花費融入該動態規劃方法中，完成後，根據出發城市和目的城市進行每次 <span class="math inline">\(O(1)\)</span> 查詢即可。</p>
@@ -658,7 +879,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-04-02 21:29:16" itemprop="dateModified" datetime="2021-04-02T21:29:16+08:00">2021-04-02</time>
+                <time title="修改時間：2021-04-08 21:30:13" itemprop="dateModified" datetime="2021-04-08T21:30:13+08:00">2021-04-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -835,7 +1056,7 @@ F &amp;= (1, 7, 8, 10, 11)
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-15 00:07:26" itemprop="dateModified" datetime="2021-03-15T00:07:26+08:00">2021-03-15</time>
+                <time title="修改時間：2021-04-08 21:29:47" itemprop="dateModified" datetime="2021-04-08T21:29:47+08:00">2021-04-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -942,7 +1163,7 @@ F &amp;= (1, 7, 8, 10, 11)
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-18 23:35:46" itemprop="dateModified" datetime="2021-03-18T23:35:46+08:00">2021-03-18</time>
+                <time title="修改時間：2021-04-08 22:07:26" itemprop="dateModified" datetime="2021-04-08T22:07:26+08:00">2021-04-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -960,7 +1181,7 @@ F &amp;= (1, 7, 8, 10, 11)
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">文章字數：</span>
-              <span>3.3k</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="所需閱讀時間">
               <span class="post-meta-item-icon">
@@ -980,17 +1201,17 @@ F &amp;= (1, 7, 8, 10, 11)
 
       
           <h1 id="描述">描述</h1>
-<p>已知 <span class="math inline">\(1 \leq n \leq 15\)</span>，令 <span class="math inline">\(\mathbf {A} = [\mathbf {a}_{i, j} ]_{n \times n}\)</span>。若 <span class="math inline">\(\mathbf {a}_{i, j} = 0\)</span>，表第 <span class="math inline">\(i\)</span> 件連衣裙與第 <span class="math inline">\(j\)</span> 雙鞋子不搭；若為 <span class="math inline">\(\mathbf {a}_{i, j} = 1\)</span>，表搭；若為 <span class="math inline">\(\mathbf {a}_{i, j} = 2\)</span>，表超搭。一個可接受的選擇，必須是在所有連衣裙和鞋子都選中的情況下，所有裙鞋搭配都搭，或者是其中一個裙鞋搭配超搭。以 <span class="math inline">\(\mathbf {A}\)</span> 表 <span class="math inline">\(n\)</span> 件連衣裙和 <span class="math inline">\(n\)</span> 雙鞋子彼此間的搭配程度，問共有多少可接受的選擇。</p>
+<p>已知 <span class="math inline">\(1 \leq n \leq 15\)</span>，令 <span class="math inline">\({A} = [{a}_{i, j} ]_{n \times n}\)</span>。若 <span class="math inline">\({a}_{i, j} = 0\)</span>，表第 <span class="math inline">\(i\)</span> 件連衣裙與第 <span class="math inline">\(j\)</span> 雙鞋子不搭；若為 <span class="math inline">\({a}_{i, j} = 1\)</span>，表搭；若為 <span class="math inline">\({a}_{i, j} = 2\)</span>，表超搭。一個可接受的選擇，必須是在所有連衣裙和鞋子都選中的情況下，所有裙鞋搭配都搭，或者是其中一個裙鞋搭配超搭。以 <span class="math inline">\({A}\)</span> 表 <span class="math inline">\(n\)</span> 件連衣裙和 <span class="math inline">\(n\)</span> 雙鞋子彼此間的搭配程度，問共有多少可接受的選擇。</p>
 <h1 id="思路">思路</h1>
 <p>以下以「搭配」表示某件連衣裙與某雙鞋子構成的配對，並且每種「選擇」都由 <span class="math inline">\(n\)</span> 個「搭配」構成。</p>
 <h2 id="第一層">第一層</h2>
-<p>考慮共有 <span class="math inline">\(n\)</span> 件連衣裙與 <span class="math inline">\(n\)</span> 雙鞋子，共有 <span class="math inline">\(n^2\)</span> 個搭配，可以看出最暴力的解法為檢查所有可能的選擇，共有 <span class="math inline">\((n^2)^n\)</span> 種，考慮到 <span class="math inline">\((15^2)^{15} = 191,751,059,232,884,086,668,491,363,525,390,625\)</span>，我們還是另尋它路，給暴力法一點尊重。</p>
+<p>考慮共有 <span class="math inline">\(n\)</span> 件連衣裙與 <span class="math inline">\(n\)</span> 雙鞋子，共有 <span class="math inline">\(n^2\)</span> 個搭配，可以看出最暴力的解法為檢查所有可能的選擇，共有 <span class="math inline">\((n^2)^n\)</span> 種，考慮到 <span class="math inline">\((15^2)^{15} = 1917,5105,9232,8840,8666,8491,3635,2539,0625\)</span>，我們還是另尋它路，給暴力法一點尊重。</p>
 <h2 id="第二層">第二層</h2>
-<p>暴力法會如此暴力的原因，是一個選擇中會出現重複的搭配，例如選 n 次第一件連衣裙和第一雙鞋子，如此不講武德的選法，必須改進，現在將 <span class="math inline">\(n^2\)</span> 個搭配，以不重複的方式，每次取 <span class="math inline">\(n\)</span> 個出來檢查，因此有 <span class="math inline">\({C}^{n^2}_{n}\)</span> 種選擇，當 <span class="math inline">\(n = 15\)</span>，要檢查的選擇高達 <span class="math inline">\(91,005,567,811,177,478,095,440\)</span> 種，雖然比暴力法少，但還是太多了。</p>
+<p>暴力法會如此暴力的原因，是一個選擇中會出現重複的搭配，例如選 n 次第一件連衣裙和第一雙鞋子，如此不講武德的選法，必須改進，現在將 <span class="math inline">\(n^2\)</span> 個搭配，以不重複的方式，每次取 <span class="math inline">\(n\)</span> 個出來檢查，因此有 <span class="math inline">\({C}^{n^2}_{n}\)</span> 種選擇，當 <span class="math inline">\(n = 15\)</span>，要檢查的選擇高達 <span class="math inline">\(910,0556,7811,1774,7809,5440\)</span> 種，雖然比暴力法少，但還是太多了。</p>
 <h2 id="第三層">第三層</h2>
-<p>上面我們排除同搭配被重複選取的問題，但沒有處理同連衣裙或同鞋子被重複選取的問題，例如選 n 次與第一件連衣裙相關的搭配，這種選擇方式顯然不符合可接受的條件。現在在每種選擇中，必定按順序取連衣裙，也就是第一個搭配與第一件連衣裙相關，第二個搭配與第二件連衣裙相關，接著考慮鞋子，在第一種選擇中，我們可以按順序取鞋子，構成第一種搭配，在第二種選擇中，先取第二雙鞋，再取第一雙鞋，剩下的取鞋順序與第一種選擇相同，剩下的依此類推，可以發現按此方法得到的選擇，必定不會遇到同裙配多鞋或同鞋配多裙的情況，此處將 <span class="math inline">\({C}^{n^2}_{n}\)</span> 降低至鞋子的全部排列方法，也就是 <span class="math inline">\({P}^{n}_{n} = n!\)</span>，不過當 <span class="math inline">\(n = 15\)</span>，選擇數為 <span class="math inline">\(1,307,674,368,000\)</span>，還是會 LTE，需要一些方法來優化。</p>
+<p>上面我們排除同搭配被重複選取的問題，但沒有處理同連衣裙或同鞋子被重複選取的問題，例如選 n 次與第一件連衣裙相關的搭配，這種選擇方式顯然不符合可接受的條件。現在在每種選擇中，必定按順序取連衣裙，也就是第一個搭配與第一件連衣裙相關，第二個搭配與第二件連衣裙相關，接著考慮鞋子，在第一種選擇中，我們可以按順序取鞋子，構成第一種搭配，在第二種選擇中，先取第二雙鞋，再取第一雙鞋，剩下的取鞋順序與第一種選擇相同，剩下的依此類推，可以發現按此方法得到的選擇，必定不會遇到同裙配多鞋或同鞋配多裙的情況，此處將 <span class="math inline">\({C}^{n^2}_{n}\)</span> 降低至鞋子的全部排列方法，也就是 <span class="math inline">\({P}^{n}_{n} = n!\)</span>，不過當 <span class="math inline">\(n = 15\)</span>，選擇數為 <span class="math inline">\(1,3076,7436,8000\)</span>，還是會 LTE，需要一些方法來優化。</p>
 <h2 id="第四層">第四層</h2>
-<p>根據第三層提到的取法，我們可以用樹狀方式展開所有可能的選擇。設 <span class="math inline">\(n = 5\)</span>，令兩序列（一個序列代表一種鞋子的選取順序，也代表一種選擇）分別為 <span class="math inline">\(\{1, 2, 3, 4, 5\}\)</span> 和 <span class="math inline">\(\{2, 1, 3, 4, 5\}\)</span>，在前者已檢查過的情況下，後者在檢查完 <span class="math inline">\(\mathbf {a}_{1, 2}\)</span> 和 <span class="math inline">\(\mathbf {a}_{2, 1}\)</span>，剩下的 <span class="math inline">\(\mathbf {a}_{3, 3}\)</span>、<span class="math inline">\(\mathbf {a}_{4, 4}\)</span> 和 <span class="math inline">\(\mathbf {a}_{5, 5}\)</span> 可能是不需檢查的。為何說是可能呢？因為在判斷之前，必須考慮 <span class="math inline">\(\mathbf {a}_{1, 2}\)</span> 和 <span class="math inline">\(\mathbf {a}_{2, 1}\)</span> 的狀態，若相同則不需繼續檢查，直接套用前者即可，若不同，則結果是不能確定的，假設 <span class="math inline">\(\mathbf {A}\)</span> 為： <span class="math display">\[
+<p>根據第三層提到的取法，我們可以用樹狀方式展開所有可能的選擇。設 <span class="math inline">\(n = 5\)</span>，令兩序列（一個序列代表一種鞋子的選取順序，也代表一種選擇）分別為 <span class="math inline">\(\{1, 2, 3, 4, 5\}\)</span> 和 <span class="math inline">\(\{2, 1, 3, 4, 5\}\)</span>，在前者已檢查過的情況下，後者在檢查完 <span class="math inline">\({a}_{1, 2}\)</span> 和 <span class="math inline">\({a}_{2, 1}\)</span>，剩下的 <span class="math inline">\({a}_{3, 3}\)</span>、<span class="math inline">\({a}_{4, 4}\)</span> 和 <span class="math inline">\({a}_{5, 5}\)</span> 可能是不需檢查的。為何說是可能呢？因為在判斷之前，必須考慮 <span class="math inline">\({a}_{1, 2}\)</span> 和 <span class="math inline">\({a}_{2, 1}\)</span> 的狀態，若相同則不需繼續檢查，直接套用前者即可，若不同，則結果是不能確定的，假設 <span class="math inline">\({A}\)</span> 為： <span class="math display">\[
 \begin{bmatrix}
  1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 \\ 
  0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 
@@ -999,7 +1220,7 @@ F &amp;= (1, 7, 8, 10, 11)
  0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 
 \end{bmatrix}
 \]</span> 依問題描述，可以發現 <span class="math inline">\(\{1, 2, 3, 4, 5\}\)</span> 不是可接受的選擇，但 <span class="math inline">\(\{2, 1, 3, 4, 5\}\)</span> 卻是可以接受的選擇，與上面的推斷吻合。</p>
-<p>接下來再進一步，設 <span class="math inline">\(\mathbf {S}\)</span> 為不定數量，由 <span class="math inline">\(1\)</span> 起算的正整數集合，令 <span class="math inline">\(Permu(\mathbf {S})\)</span> 表示所有由 <span class="math inline">\(\mathbf {S}\)</span> 中元素組合成的全排列數列。考慮 <span class="math inline">\(\{1, 2, Permu(\{3, 4, 5\})\}\)</span> 和 <span class="math inline">\(\{2, 1, Permu(\{3, 4, 5\})\}\)</span>，在檢查完前者形成的 <span class="math inline">\(6\)</span> 個選擇後，我們可以在已知 <span class="math inline">\(\{1, 2\}\)</span> 的狀態下，把 <span class="math inline">\(Permu(\{3, 4, 5\})\)</span> 可以得到多少可接受的搭配數紀錄下來，這樣使得當 <span class="math inline">\(\{2, 1\}\)</span> 的狀態與 <span class="math inline">\(\{1, 2\}\)</span> 一致時，可以直接得到答案，設 <span class="math inline">\(\mathbf {A}\)</span> 為： <span class="math display">\[
+<p>接下來再進一步，設 <span class="math inline">\({S}\)</span> 為不定數量，由 <span class="math inline">\(1\)</span> 起算的正整數集合，令 <span class="math inline">\(Permu({S})\)</span> 表示所有由 <span class="math inline">\({S}\)</span> 中元素組合成的全排列數列。考慮 <span class="math inline">\(\{1, 2, Permu(\{3, 4, 5\})\}\)</span> 和 <span class="math inline">\(\{2, 1, Permu(\{3, 4, 5\})\}\)</span>，在檢查完前者形成的 <span class="math inline">\(6\)</span> 個選擇後，我們可以在已知 <span class="math inline">\(\{1, 2\}\)</span> 的狀態下，把 <span class="math inline">\(Permu(\{3, 4, 5\})\)</span> 可以得到多少可接受的搭配數紀錄下來，這樣使得當 <span class="math inline">\(\{2, 1\}\)</span> 的狀態與 <span class="math inline">\(\{1, 2\}\)</span> 一致時，可以直接得到答案，設 <span class="math inline">\({A}\)</span> 為： <span class="math display">\[
 \begin{bmatrix}
  1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 
  1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 
@@ -1007,11 +1228,11 @@ F &amp;= (1, 7, 8, 10, 11)
  0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 \\ 
  0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 
 \end{bmatrix}
-\]</span> 當知道 <span class="math inline">\(\{1, 2, Permu(\{3, 4, 5\})\}\)</span> 的可接受選擇總數為 6 後，自然可以知道 <span class="math inline">\(\{2, 1, Permu(\{3, 4, 5\})\}\)</span> 的可接受選擇總數為 6，這是因為 <span class="math inline">\(\{1, 2\}\)</span> 的狀態為全部都搭（<span class="math inline">\(\mathbf {a}_{1, 2} = 1\)</span> 且 <span class="math inline">\(\mathbf {a}_{2, 1} = 1\)</span>），而 <span class="math inline">\(\{2, 1\}\)</span> 的狀態也為全部都搭。</p>
+\]</span> 當知道 <span class="math inline">\(\{1, 2, Permu(\{3, 4, 5\})\}\)</span> 的可接受選擇總數為 6 後，自然可以知道 <span class="math inline">\(\{2, 1, Permu(\{3, 4, 5\})\}\)</span> 的可接受選擇總數為 6，這是因為 <span class="math inline">\(\{1, 2\}\)</span> 的狀態為全部都搭（<span class="math inline">\({a}_{1, 2} = 1\)</span> 且 <span class="math inline">\({a}_{2, 1} = 1\)</span>），而 <span class="math inline">\(\{2, 1\}\)</span> 的狀態也為全部都搭。</p>
 <p>經過推論，現在令狀態 <span class="math inline">\(0\)</span> 為之前出現過不搭的搭配，狀態 <span class="math inline">\(1\)</span> 為之前只出現過搭的搭配，狀態 <span class="math inline">\(2\)</span> 為之前出現過超搭的搭配，使用狀態壓縮（state compression）來表達已經檢查過的搭配，例如 <span class="math inline">\(3 = b&#39;00011\)</span> 代表 <span class="math inline">\(\{1, 2\}\)</span> 或 <span class="math inline">\(\{2, 1\}\)</span> 已經檢查過，這等價於 <span class="math inline">\(\{Permu(\{3, 4, 5\})\}\)</span> 尚未檢查；<span class="math inline">\(14 = b&#39;11010\)</span> 代表 <span class="math inline">\(\{Permu(\{2, 4, 5\})\}\)</span> 中的至少一個序列已經檢查過，等價於 <span class="math inline">\(\{1, 3\}\)</span> 和 <span class="math inline">\(\{3, 1\}\)</span> 尚未檢查。</p>
 <p>有了以上設定，可以定義尋找表（lookup table），使其第一個索引為檢查過的搭配（或沒檢查過的，反正這兩種表述互補），第二個索引為狀態，儲存的值為在特定狀態下，尚未檢查過的搭配可以構成多少的可接受選擇，初始設置為 <span class="math inline">\(-1\)</span>（或某個可表達的負整數，開心就好），表示不存在，藉由尋找表的幫助，這個方法可以解決 TLE 的問題（耗費 <span class="math inline">\(0.200\)</span> 秒）。</p>
 <h2 id="第五層">第五層</h2>
-<p>實際上這個方法還能再優化，因為只要其中一個搭配超搭，整個選擇就是可接受的，依此特性，我們可以在第一次遇到超搭的搭配後，直接將可接受的選擇總數算出來，考慮 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span>，若 <span class="math inline">\(\mathbf {a}_{1, 1} = 2\)</span>，可以直接得知 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span> 都是可接受的，共有 <span class="math inline">\(P^{14}_{14} = 14! = 87,178,291,200\)</span> 種可接受選擇，不用進行後續檢查。由此可知對於某一選擇，在檢查 <span class="math inline">\(k - 1\)</span> 件連衣裙對應的搭配後，第一次發現其與相應鞋子超搭時，直接得出 <span class="math inline">\((n - k)!\)</span> 為與該序列前 <span class="math inline">\(k\)</span> 個數字相同的搭配的總和，當作有效的可接受選擇總數，最後加上提前算好 <span class="math inline">\(n!\)</span> 的具體數值，可以有效減少運算時間（耗費 <span class="math inline">\(0.120\)</span> 秒），並且如此一來，狀態 <span class="math inline">\(2\)</span> 可以移除，降低 <span class="math inline">\({1 \over 3}\)</span> 尋找表需要的記憶體。</p>
+<p>實際上這個方法還能再優化，因為只要其中一個搭配超搭，整個選擇就是可接受的，依此特性，我們可以在第一次遇到超搭的搭配後，直接將可接受的選擇總數算出來，考慮 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span>，若 <span class="math inline">\({a}_{1, 1} = 2\)</span>，可以直接得知 <span class="math inline">\(\{1, Permu(\{2, \dots, 15\})\}\)</span> 都是可接受的，共有 <span class="math inline">\(P^{14}_{14} = 14! = 87,178,291,200\)</span> 種可接受選擇，不用進行後續檢查。由此可知對於某一選擇，在檢查 <span class="math inline">\(k - 1\)</span> 件連衣裙對應的搭配後，第一次發現其與相應鞋子超搭時，直接得出 <span class="math inline">\((n - k)!\)</span> 為與該序列前 <span class="math inline">\(k\)</span> 個數字相同的搭配的總和，當作有效的可接受選擇總數，最後加上提前算好 <span class="math inline">\(n!\)</span> 的具體數值，可以有效減少運算時間（耗費 <span class="math inline">\(0.120\)</span> 秒），並且如此一來，狀態 <span class="math inline">\(2\)</span> 可以移除，降低 <span class="math inline">\({1 \over 3}\)</span> 尋找表需要的記憶體。</p>
 <h1 id="結論">結論</h1>
 <p>本問題看似複雜，實際上能用自頂向下，帶尋找表和剪枝（遇 <span class="math inline">\(2\)</span> 直接算，其實查表也可算做剪枝）的遞迴解法解決，如果能夠改寫出自底向上的動態規劃解法，除去遞迴的開銷，運算的時間應該還能夠更少。</p>
 <h1 id="備註">備註</h1>
@@ -1100,7 +1321,7 @@ F &amp;= (1, 7, 8, 10, 11)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1149,12 +1370,12 @@ F &amp;= (1, 7, 8, 10, 11)
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="總字數">12k</span>
+    <span title="總字數">16k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="所需總閱讀時間">11 分鐘</span>
+    <span title="所需總閱讀時間">15 分鐘</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
   </div>

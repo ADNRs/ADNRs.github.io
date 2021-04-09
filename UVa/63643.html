@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+<!--link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap" rel="stylesheet"-->
+  <meta name="google-site-verification" content="_O3A9uYH-G6AWvukppKHB6gNLM2Idx1syqRttGGnie4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif TC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"adnrs.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="描述 給定 \(n\) 顆彈珠和兩種盒子，且兩種盒子的花費和容量分別為 \(c_1\)、\(c_2\) 和 \(n_1\)、\(n_2\)，其中 \(n\)、\(c_1\)、\(c_2\)、\(n_1\) 和 \(n_2\) 都是正整數，現在用數量不定的兩種盒子裝彈珠，並且所有盒子都必須裝滿，若能辦到，問在最低花費下，兩種盒子的所需個數為多少。 思路 令 \(p\) 和 \(q\) 分別為兩">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UVa 10090: Marbles">
+<meta property="og:url" content="https://adnrs.github.io/UVa/63643.html">
+<meta property="og:site_name" content="Yeecy 程式雜筆">
+<meta property="og:description" content="描述 給定 \(n\) 顆彈珠和兩種盒子，且兩種盒子的花費和容量分別為 \(c_1\)、\(c_2\) 和 \(n_1\)、\(n_2\)，其中 \(n\)、\(c_1\)、\(c_2\)、\(n_1\) 和 \(n_2\) 都是正整數，現在用數量不定的兩種盒子裝彈珠，並且所有盒子都必須裝滿，若能辦到，問在最低花費下，兩種盒子的所需個數為多少。 思路 令 \(p\) 和 \(q\) 分別為兩">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-09T08:27:37.000Z">
+<meta property="article:modified_time" content="2021-04-09T08:27:37.175Z">
+<meta property="article:author" content="Yeecy">
+<meta property="article:tag" content="UVa">
+<meta property="article:tag" content="Extended Euclidean">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://adnrs.github.io/UVa/63643.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>UVa 10090: Marbles | Yeecy 程式雜筆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yeecy 程式雜筆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">隨意寫寫，看懂掌聲 (ﾉ>ω<)ﾉ</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://adnrs.github.io/UVa/63643.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yeecy">
+      <meta itemprop="description" content="紀錄寫 bug 的日常">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yeecy 程式雜筆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UVa 10090: Marbles
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2021-04-09 16:27:37" itemprop="dateCreated datePublished" datetime="2021-04-09T16:27:37+08:00">2021-04-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UVa/" itemprop="url" rel="index"><span itemprop="name">UVa</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="文章字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">文章字數：</span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="所需閱讀時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需閱讀時間 &asymp;</span>
+              <span>4 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="描述">描述</h1>
+<p>給定 <span class="math inline">\(n\)</span> 顆彈珠和兩種盒子，且兩種盒子的花費和容量分別為 <span class="math inline">\(c_1\)</span>、<span class="math inline">\(c_2\)</span> 和 <span class="math inline">\(n_1\)</span>、<span class="math inline">\(n_2\)</span>，其中 <span class="math inline">\(n\)</span>、<span class="math inline">\(c_1\)</span>、<span class="math inline">\(c_2\)</span>、<span class="math inline">\(n_1\)</span> 和 <span class="math inline">\(n_2\)</span> 都是正整數，現在用數量不定的兩種盒子裝彈珠，並且所有盒子都必須裝滿，若能辦到，問在最低花費下，兩種盒子的所需個數為多少。</p>
+<h1 id="思路">思路</h1>
+<p>令 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 分別為兩種盒子所需的數量，則題目可以表述為</p>
+<p><span class="math display">\[
+\begin{equation}
+\underset{p, q}{\mathrm{argmin}}\; f(p, q) = c_1 p + c_2 q
+\end{equation}
+\]</span></p>
+<p>且 <span class="math inline">\(p, q \in \mathbb{Z}^{0+}\)</span> 並同時滿足</p>
+<p><span class="math display">\[
+\begin{equation}
+n_1 p + n_2 q = n
+\end{equation}
+\]</span></p>
+<h2 id="第一層">第一層</h2>
+<p>既然 <span class="math inline">\(n\)</span> 的上限是 <span class="math inline">\(20,0000,0000\)</span>，就不浪費篇幅討論暴力解了，直接進入主題。</p>
+<h2 id="第二層">第二層</h2>
+<p>式 <span class="math inline">\((2)\)</span> 顯然為二元一次丟番圖方程式，並且容易想到（？）貝祖等式，貝祖等式的內容為</p>
+<blockquote>
+<p>令 <span class="math inline">\(a\)</span> 和 <span class="math inline">\(b\)</span> 為整數且兩者的最大公因數為 <span class="math inline">\(d\)</span>，則存在整數 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(y\)</span> 使得 <span class="math inline">\(a x + b y = d\)</span>。</p>
+</blockquote>
+<p>據此有</p>
+<p><span class="math display">\[
+\begin{equation}
+n_1 p&#39; + n_2 q&#39; = gcd(n_1, n_2)
+\end{equation}
+\]</span></p>
+<p>觀察式 <span class="math inline">\((2)\)</span> 和式 <span class="math inline">\((3)\)</span>，兩者的不同在於等號右邊分別為 <span class="math inline">\(n\)</span> 和 <span class="math inline">\(gcd(n_1, n_2)\)</span>，當 <span class="math inline">\(n\)</span> 為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍時，式 <span class="math inline">\((2)\)</span> 必然會有整數解，即 <span class="math inline">\((p, q) = r(p&#39;, q&#39;)\)</span>，其中 r 為整數。但是如果 <span class="math inline">\(n\)</span> 不為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍時，式 <span class="math inline">\((2)\)</span> 會有整數解嗎？答案為否，這是因為 <span class="math inline">\(n\)</span> 為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍是式 <span class="math inline">\((2)\)</span> 有整數解的必要條件（見證明：命題一），所以找到 <span class="math inline">\(gcd(n_1, n_2)\)</span> 是當前的首要目標。</p>
+<p>利用擴展歐幾里得演算法，可以在求得 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的同時，得到一組滿足式 <span class="math inline">\((3)\)</span> 的解，稱其為 <span class="math inline">\((p_0&#39;, q_0&#39;)\)</span>（這又被稱為 <span class="math inline">\((n_1, n_2)\)</span> 的一組貝祖係數）。若 <span class="math inline">\(n\)</span> 模除 <span class="math inline">\(gcd(n_1, n_2)\)</span> 不為 <span class="math inline">\(0\)</span>，表無論 <span class="math inline">\(n_1\)</span> 和 <span class="math inline">\(n_2\)</span> 怎樣組合都不會得到 <span class="math inline">\(n\)</span>，也就是失敗；若為 <span class="math inline">\(0\)</span>，則可以透過將 <span class="math inline">\((p_0&#39;, q_0&#39;)\)</span> 乘上 <span class="math inline">\(\frac{n}{gcd(n_1, n_2)}\)</span> 得到一組滿足式 <span class="math inline">\((2)\)</span> 的解，稱其為 <span class="math inline">\((p_0, q_0)\)</span>。</p>
+<p>考慮式 <span class="math inline">\((2)\)</span>，知道其法向量為 <span class="math inline">\((n_1, n_2)\)</span>，根據兩正交向量內積為 <span class="math inline">\(0\)</span> 的性質，可以算出其方向向量可為 <span class="math inline">\((-n_2, n_1)\)</span>，利用方向向量和 <span class="math inline">\((p_0, q_0)\)</span> 得到其參數式為</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+p = p_0 - n_2 t \\
+q = q_0 + n_1 t
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>由於 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 為非負整數，故 <span class="math inline">\(t\)</span> 的取值範圍並非為全體實數，但也不是整數，為什麼呢？先考慮 <span class="math inline">\(p\)</span>，因為 <span class="math inline">\(p_0\)</span> 為整數，為使 <span class="math inline">\(p\)</span> 為整數，則 <span class="math inline">\(n_2 t\)</span> 也得為整數，考慮 <span class="math inline">\(n_2 t\)</span> 可以形成的最小正整數為 <span class="math inline">\(n_2 \over gcd(n_1, n_2)\)</span>，因為 <span class="math inline">\(n_2\)</span> 是整數，所以 <span class="math inline">\(t\)</span> 必須是以 <span class="math inline">\(gcd(n_1, n_2)\)</span> 為分母，任意整數為分子的分數，為方便討論，把分母移給 <span class="math inline">\(n_2\)</span>，令 <span class="math inline">\(t&#39;\)</span> 為 <span class="math inline">\(t\)</span> 的分子，這樣對任意整數 <span class="math inline">\(t&#39;\)</span>，可以得到相應的整數 <span class="math inline">\(p\)</span>，同理，<span class="math inline">\(q\)</span> 也能以 <span class="math inline">\(t&#39;\)</span> 表示，改寫式 <span class="math inline">\((4)\)</span> 得</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+p = p_0 - \frac{n_2}{gcd(n_1, n_2)} t&#39; \\
+q = q_0 + \frac{n_1}{gcd(n_1, n_2)} t&#39;
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>把式 <span class="math inline">\((5)\)</span> 帶入 <span class="math inline">\(f(p, q)\)</span>，得到</p>
+<p><span class="math display">\[
+\begin{eqnarray}
+f(p, q) &amp;=&amp; c_1 p + c_2 q \nonumber \\
+        &amp;=&amp; c_1(p_0 - \frac{n_2}{gcd(n_1, n_2)} t&#39;) + c_2(q_0 + \frac{n_1}{gcd(n_1, n_2)} t&#39;) \nonumber \\
+        &amp;=&amp; (c_1 p_0 + c_2 q_0) + (\frac{-c_1 n_2 + c_2 n_1}{gcd(n_1, n_2)}) t&#39; \\
+        &amp;=&amp; g(t&#39;) \nonumber
+\end{eqnarray}
+\]</span></p>
+<p>帶入後，原本關於 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 的函數轉變為關於 <span class="math inline">\(t&#39;\)</span> 的函數，同時不難發現 <span class="math inline">\(c_1 p_0 + c_2 q_0\)</span> 和 <span class="math inline">\(\frac{-c_1 n_2 + c_2 n_1}{gcd(n_1, n_2)}\)</span> 都為整數常數，也就是說 <span class="math inline">\(g(t&#39;)\)</span> 是線性的，那麼只要知道 <span class="math inline">\(t&#39;\)</span> 的上下界並帶入 <span class="math inline">\(g(t&#39;)\)</span>，就可知道 <span class="math inline">\(g(t&#39;)\)</span> 是嚴格遞增或嚴格遞減函數，並得知最小值發生在何處。</p>
+<p>現在來推 <span class="math inline">\(t&#39;\)</span> 的範圍，考慮 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 不能為負數，有 <span class="math inline">\(p \ge 0\)</span> 和 <span class="math inline">\(q \ge 0\)</span>，綜合式 <span class="math inline">\((5)\)</span> 有</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+p = p_0 - \frac{n_2}{gcd(n_1, n_2)} t&#39; \ge 0 \\
+q = q_0 + \frac{n_1}{gcd(n_1, n_2)} t&#39; \ge 0
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>整理式 <span class="math inline">\((7)\)</span>，得到</p>
+<p><span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{}
+t&#39; \le \left \lceil{\frac{p_0 \times gcd(n_1, n_2)}{n_2}}\right \rceil \\
+t&#39; \ge \left \lfloor{\frac{-q_0 \times gcd(n_1, n_2)}{n_1}}\right \rfloor
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>所以 <span class="math inline">\(t&#39;\)</span> 的範圍為 <span class="math inline">\(\left \lceil{\frac{p_0 \times gcd(n_1, n_2)}{n_2}}\right \rceil \le t&#39; \le \left \lfloor{\frac{-q_0 \times gcd(n_1, n_2)}{n_1}}\right \rfloor\)</span>，若該範圍中不存在任何整數，表失敗，否則按前述方法求得 <span class="math inline">\(t&#39;_{min}\)</span>，再把 <span class="math inline">\(t&#39;_{min}\)</span> 帶入式 <span class="math inline">\((5)\)</span> 回推得出 <span class="math inline">\(p_{min}\)</span> 和 <span class="math inline">\(q_{min}\)</span>，即為式 <span class="math inline">\((1)\)</span> 的答案。</p>
+<h2 id="範例">範例</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1024</span><br><span class="line">24 34</span><br><span class="line">15 20</span><br></pre></td></tr></table></figure>
+<p>A. 求 <span class="math inline">\(gcd(34, 20)\)</span>，得到 <span class="math inline">\(gcd(34, 20) = 2\)</span>。</p>
+<p><span class="math display">\[
+\begin{array}{}
+34 &amp;\div&amp; 20 &amp;=&amp; 1 &amp;\dots&amp; 14 \\
+20 &amp;\div&amp; 14 &amp;=&amp; 1 &amp;\dots&amp; 6 \\
+14 &amp;\div&amp; 6 &amp;=&amp; 2 &amp;\dots&amp; 2 \\
+6 &amp;\div&amp; 2 &amp;=&amp; 3 &amp;\dots&amp; 0 \\
+\end{array}
+\]</span></p>
+<p>B. 藉由回推求 <span class="math inline">\(gcd(34, 20)\)</span> 的過程得到 <span class="math inline">\((34, 20)\)</span> 的一組貝祖係數 <span class="math inline">\((3, -5)\)</span>。</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+gcd(34, 20) &amp;=&amp; 2 \\
+            &amp;=&amp; 14 - 2 \times 6\\
+            &amp;=&amp; 14 - 2 \times (20 - 14) \\
+            &amp;=&amp; 3 \times 14 - 2 \times 20 \\
+            &amp;=&amp; 3 \times (34 - 20) - 2 \times 20 \\
+            &amp;=&amp; 3 \times 34 - 5 \times 20 \\
+            &amp;=&amp; 3 \times 34 + (-5) \times 20
+\end{eqnarray*}
+\]</span></p>
+<p>C. <span class="math inline">\(1024\)</span> 模除 <span class="math inline">\(2\)</span> 為 <span class="math inline">\(0\)</span>，繼續。</p>
+<p>D. 求 <span class="math inline">\((p_0, q_0)\)</span>，得 <span class="math inline">\((p_0, q_0) = \frac{1024}{2} \times (3, -5) = (1536, -2560)\)</span>。</p>
+<p>E. 求 <span class="math inline">\(\left \lceil{\frac{-(-2560 \times 2)}{34}}\right \rceil \le t&#39; \le \left \lfloor{\frac{1536 \times 2}{20}}\right \rfloor\)</span>，得 <span class="math inline">\(151 \le t&#39; \le 153\)</span>，繼續。</p>
+<p>F. 由於 <span class="math inline">\(g(151) = 729 &lt; g(153) = 759\)</span>，取 <span class="math inline">\(t&#39;_{min} = 151\)</span>。</p>
+<p>G. 將 <span class="math inline">\(t&#39;_{min}\)</span> 帶入式 <span class="math inline">\((5)\)</span>，得到答案為 <span class="math inline">\((26, 7)\)</span>。</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+(p_{min}, q_{min}) &amp;=&amp; (1536 - \frac{20}{2} \times 151, -2560 + \frac{34}{2} \times 151) \\
+                   &amp;=&amp; (26, 7)
+\end{eqnarray*}
+\]</span></p>
+<h1 id="結論">結論</h1>
+<p>本題結合了數論與函數的應用，可謂是相當精彩，除非有超強的數學直覺，否則在不知道貝祖定理、擴展歐幾里得演算法或數學推理能力不足的情況下（完全在說我自己），要解出本題是有些難度的。</p>
+<h1 id="備註">備註</h1>
+<ul>
+<li>文中關於貝祖等式的說明翻譯自 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity">Bézout's identity</a>。</li>
+<li>當 <span class="math inline">\(n &lt; n_1\)</span> 且 <span class="math inline">\(n &lt; n_2\)</span> 時表失敗，我怕汙辱大家智商，就沒在文中給出，不過不檢查此項並不會影響正確性。</li>
+<li><span class="math inline">\(g(t&#39;)\)</span> 不會是水平線，因為題目表明當式 <span class="math inline">\((1)\)</span> 有解時，可以假設其解唯一。</li>
+<li>範例的 A. 和 B. 在擴展歐幾里得演算法中是同時進行的。</li>
+</ul>
+<h1 id="證明">證明</h1>
+<blockquote>
+<p>命題一：若 <span class="math inline">\(n_1 p + n_2 q = n\)</span> 存在整數解，則 <span class="math inline">\(n\)</span> 為 <span class="math inline">\(gcd(n_1, n_2)\)</span> 的整數倍。</p>
+</blockquote>
+<blockquote>
+<p>令 <span class="math inline">\(d\)</span> 表 <span class="math inline">\(gcd(n_1, n_2)\)</span>，因為 <span class="math inline">\(n_1\)</span> 和 <span class="math inline">\(n_2\)</span> 為 <span class="math inline">\(d\)</span> 的整數倍，不仿設 <span class="math inline">\(n_1 = r_1 d\)</span> 和 <span class="math inline">\(n_2 = r_2 d\)</span>，其中 <span class="math inline">\(r_1, r_2 \in \mathbb{Z}\)</span>。由於存在整數解使得 <span class="math inline">\(n_1 p + n_2 q = n\)</span> 成立，故 <span class="math inline">\((r_1 d) p + (r_2 d) q = n\)</span> 也成立，整理得 <span class="math inline">\(n = (r_1 p + r_2 q)d\)</span>，顯然 <span class="math inline">\((r_1 p + r_2 q)\)</span> 為一整數，證畢。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/UVa/" rel="tag"># UVa</a>
+              <a href="/tags/Extended-Euclidean/" rel="tag"># Extended Euclidean</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/UVa/21514.html" rel="prev" title="UVa 11987: Almost Union-Find">
+      <i class="fa fa-chevron-left"></i> UVa 11987: Almost Union-Find
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E5%B1%A4"><span class="nav-number">2.1.</span> <span class="nav-text">第一層</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E5%B1%A4"><span class="nav-number">2.2.</span> <span class="nav-text">第二層</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B"><span class="nav-number">2.3.</span> <span class="nav-text">範例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%82%99%E8%A8%BB"><span class="nav-number">4.</span> <span class="nav-text">備註</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AD%89%E6%98%8E"><span class="nav-number">5.</span> <span class="nav-text">證明</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yeecy</p>
+  <div class="site-description" itemprop="description">紀錄寫 bug 的日常</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yeecy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="總字數">16k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="所需總閱讀時間">15 分鐘</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
