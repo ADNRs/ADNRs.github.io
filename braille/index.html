@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' rel='stylesheet'></link>
+    <title>img2braille</title>
+</head>
+
+<body bgcolor="#363B40">
+    <div style="color:white; font-family:'Times New Roman';">
+        <h1>Image to UTF-8 Braille Pattern Converter</h1>
+        <p style="text-align: right;">
+            by ADNRs
+            <br>
+            <label style="font-style:italic;">
+                updated: July 20, 2021
+            </label>
+        </p>
+        <hr>
+        <h2>Select Image</h2>
+        <p>
+            <label class="btn btn-info">
+                <input type="file" accept="image/*" style="display: none;" id="image-input"/>
+                <i class="fa fa-plus-square" aria-hidden="true" style="font-size: 24px;"></i>
+            </label>
+            <label id="image-name-label">Click the "+" icon to select an image.</label>
+        </p>
+        <canvas id="image-view"></canvas>
+        <hr>
+        <h2>Control Panel</h2>
+        <table border="1" style="border: 1px solid #fff; border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td width="250px" height="30px">
+                        <label id="font-size-output">Font size: 16 (1-32)</label>
+                    </td>
+                    <td>
+                        <input type="range" min="1" max="32" id="font-size-slider" style="width: 250px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="250px" height="30px">
+                        <label id="width-output">Width in character: 50 (10-400)</label>
+                    </td>
+                    <td>
+                        <input type="range" min="10" max="400" id="width-slider" step="5" style="width: 250px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="250px" height="30px">
+                        <label id="thres-output">Binarization threshold: 128 (0-256)</label>
+                    </td>
+                    <td>
+                        <input type="range" min="0" max="256" id="thres-slider" style="width: 250px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="250px" height="30px">
+                        Type of Braille cell:
+                    </td>
+                    <td>
+                        <select id="dots-opt">
+                            <option value="8">8-dot</option>
+                            <option value="6">6-dot</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="250px" height="30px">
+                        Negative image:
+                    </td>
+                    <td>
+                        <select id="neg-opt">
+                            <option value="0">disable</option>
+                            <option value="1">enable</option>
+                        </select>
+                    </td>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <h2>UTF-8 Braille Pattern</h2>
+        <pre id="braille-view"></pre>
+        <hr>
+        <h2>Note</h2>
+        <ul>
+            <li>For Chrome users, please go to "chrome://settings/fonts" and set the minimum font size to 0 (6 or 12 by default) to get better experiences. It's fine if you don't want to do this.</li>
+        </ul>
+    <br>
+    <br>
+    <br>
+    <center>
+        ⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⢿⢿⢿⢿⢿⢿⣿⣿⣿⢛⢛⢛⢿⣿⣿<br>
+        ⣿⢏⢀⢀⢀⢈⢋⣵⣶⣿⣿⣿⣿⣿⣿⣶⣶⣤⣀⢀⢀⢀⢀⢹⣿<br>
+        ⣟⢀⢀⢀⢀⣴⣿⣿⢿⢛⢛⢿⣿⣏⣉⣛⣿⣿⣿⣄⢀⢀⢀⢸⣿<br>
+        ⣿⣀⢀⢀⣸⣿⣿⣷⢶⢖⢶⣼⣿⣿⣻⢛⣿⣿⣿⣿⣄⢀⣠⣿⣿<br>
+        ⣿⣿⣶⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣸⣿⣿⣿<br>
+        ⣿⣿⣇⣾⣿⣿⣿⣿⣿⣿⣵⣛⢛⢛⣻⣮⣿⣿⣿⣿⣿⣧⢻⣿⣿<br>
+        ⣿⣿⢇⢻⣿⣿⣿⣿⣿⣿⣿⢟⣋⣉⢉⢻⣿⣿⣿⣿⣿⣿⢈⢻⣿<br>
+        ⣿⢏⢀⢘⣿⣿⣿⣿⣿⣿⣿⣶⢶⣶⣶⣿⣿⣿⣿⣿⣿⢃⢀⢀⣿<br>
+        ⣿⢀⢀⢀⢈⢛⢿⣿⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⢿⢋⢀⢀⢀⢀⣿<br>
+        ⣿⢀⢀⢀⢀⢀⢀⢀⢈⢉⢉⢛⢛⢛⢛⢉⢁⢀⢀⢀⢀⢀⢀⢀⣿<br>
+    </center>
+    <br>
+    <br>
+    <br>
+    </div>
+
+    <script>
+        // global objects
+        let imageInput     = document.getElementById('image-input');
+        let imageView      = document.getElementById('image-view');
+        let brailleView    = document.getElementById('braille-view');
+        let fontSizeSlider = document.getElementById('font-size-slider');
+        let fontSizeOut    = document.getElementById('font-size-output');
+        let widthSlider    = document.getElementById('width-slider');
+        let widthOut       = document.getElementById('width-output');
+        let thresSlider    = document.getElementById('thres-slider');
+        let thresOut       = document.getElementById('thres-output');
+        let dotsOpt        = document.getElementById('dots-opt');
+        let negOpt         = document.getElementById('neg-opt');
+        let reader         = new FileReader();
+        let image          = new Image();
+
+        // initial settings
+        fontSizeSlider.value  = 16;
+        widthSlider.value     = 50;
+        thresSlider.value     = 128;
+        imageView.width       = 0;
+        imageView.height      = 0;
+        brailleView.innerHTML = 'Result will be shown here.';
+
+        // event handlers
+        imageInput.onchange = function(event) {
+            document.getElementById('image-name-label').innerHTML = event.target.files[0].name;
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+        reader.onload = function(event) {
+            image.src = event.target.result;
+        };
+
+        image.onload = function() {
+            imageView.width  = image.width;
+            imageView.height = image.height;
+            imageView.getContext('2d').drawImage(image, 0, 0);
+            pipeline();
+        };
+
+        fontSizeSlider.oninput = function() {
+            fontSizeOut.innerHTML = 'Font size: ' + fontSizeSlider.value + ' (1-30)';
+            brailleView.style.fontSize = fontSizeSlider.value + 'px';
+        };
+
+        widthSlider.oninput = function() {
+            widthOut.innerHTML = 'Width in character: ' + widthSlider.value + ' (10-400)';
+            pipeline(1);
+        };
+
+        thresSlider.oninput = function() {
+            thresOut.innerHTML = 'Binarization threshold: ' + thresSlider.value + ' (0-256)';
+            pipeline(4);
+        };
+
+        dotsOpt.onchange = function() {
+            pipeline(1);
+        };
+
+        negOpt.onchange = function() {
+            pipeline(4);
+        };
+
+        // helper functions
+        let cache = {};
+
+        function pipeline(stage) {
+            // TODO:
+            //     + enable Sobel operator
+            //     + enable histogram equalization
+            //     + support horizontal and vertical flip
+            //     + maybe add more features?
+            //     + maybe support ASCII art?
+            //     + the steps maybe needs to be reconsidering
+            switch (stage || 0) {
+                case 0:
+                    // convert RGB to grayscale
+                    cache.grayscale = genGrayscale(imageView.getContext('2d').getImageData(0, 0, image.width, image.height).data);
+                case 1:
+                    // zoom to designated width and appropriate height
+                    cache.interpolatedGrayscale = bilinearInterpolation(cache.grayscale, widthSlider.value);
+                case 2:
+                    // make sure the dimension is 4n*2m or 3n*2m (n and m are some integers, 4 for 8-dot, 3 for 6-dot)
+                    cache.fixedGrayscale = boundaryFix(cache.interpolatedGrayscale, dotsOpt.value);
+                case 3:
+                    // make sure all pixels range from 0 to 255
+                    cache.clippedGrayscale = cache.fixedGrayscale;
+                case 4:
+                    // generate Braille Pattern
+                    brailleView.innerHTML = genBraillePattern(cache.clippedGrayscale, thresSlider.value, dotsOpt.value, negOpt.value);
+            }
+        };
+
+        function genGrayscale(imageData) {
+            // TODO:
+            //     + add different formulae for converting RGB to grayscale
+            let grayscale = Array.from(Array(image.height), () => new Array(image.width));
+
+            for (let i = 0; i < image.height; i++) {
+                for (let j = 0; j < image.width; j++) {
+                    let x = (i*image.width + j) * 4;
+                    grayscale[i][j] = Math.round(imageData[x]*.299 + imageData[x+1]*.587 + imageData[x+2]*.114);
+                }
+            }
+
+            return grayscale;
+        };
+
+        function bilinearInterpolation(grayscale, width) {
+            // TODO:
+            //     + add an wrapper to avoid direct call to this function
+            let zoomRatio    = (width*2 || 150) / image.width;
+            let newHeight    = Math.round(zoomRatio * image.height);
+            let newWidth     = Math.round(zoomRatio * image.width);
+            let newGrayscale = Array.from(Array(newHeight), () => new Array(newWidth));
+
+            for (let x = 0; x < newHeight; x++) {
+                let zoomX  = x / zoomRatio;
+                let floorX = Math.floor(zoomX);
+                let ceilX  = Math.ceil(zoomX);
+                let x1     = Math.round(zoomRatio * floorX);
+                let x2     = Math.round(zoomRatio * ceilX);
+                let idxX1  = floorX >= 0 ? floorX : 0;
+                let idxX2  = ceilX < image.height - 1 ? ceilX : image.height - 1;
+
+                for (let y = 0; y < newWidth; y++) {
+                    let zoomY  = y / zoomRatio;
+                    let floorY = Math.floor(zoomY);
+                    let ceilY  = Math.ceil(zoomY);
+                    let y1     = Math.round(zoomRatio * floorY);
+                    let y2     = Math.round(zoomRatio * ceilY);
+                    let idxY1  = floorY >= 0 ? floorY : 0;
+                    let idxY2  = ceilY < image.width - 1 ? ceilY : image.width - 1;
+                    let fq11   = grayscale[idxX1][idxY1];
+                    let fq12   = grayscale[idxX1][idxY2];
+                    let fq21   = grayscale[idxX2][idxY1];
+                    let fq22   = grayscale[idxX2][idxY2];
+
+                    if ((x2 - x1) * (y2 - y1)) {
+                        newGrayscale[x][y] = (
+                            fq11*(x2 - x)*(y2 - y) +
+                            fq21*(x - x1)*(y2 - y) +
+                            fq12*(x2 - x)*(y - y1) +
+                            fq22*(x - x1)*(y - y1)
+                        ) / (
+                            (x2 - x1) * (y2 - y1)
+                        );
+                    }
+                    else if (x2 - x1) {
+                        newGrayscale[x][y] = fq11/2 + fq21/2;
+                    }
+                    else if (y2 - y1) {
+                        newGrayscale[x][y] = fq11/2 + fq12/2;
+                    }
+                    else {
+                        newGrayscale[x][y] = fq11;
+                    }
+
+                    newGrayscale[x][y] = Math.round(newGrayscale[x][y]);
+                }
+            }
+
+            return newGrayscale;
+        };
+
+        function boundaryFix(grayscale, dotsNum) {
+            let height = grayscale.length;
+            let width  = grayscale[0].length;
+
+            grayscale = grayscale.map(_ => ([..._]));
+            dotsNum   = dotsNum || 8;
+
+            if (width % 2 == 1) {
+                for (let i = 0; i < height; i++) {
+                    grayscale[i].pop();
+                }
+            }
+            switch (height % (dotsNum / 2)) {
+                case 3:
+                    grayscale.pop();
+                case 2:
+                    grayscale.pop();
+                case 1:
+                    grayscale.pop();
+                case 0:
+            }
+
+            return grayscale;
+        };
+
+        function histogramEqualization(grayscale) {
+            // TODO:
+            //     + maybe need a way to ensure that there are no float point value inside grayscale
+            let height = grayscale.length;
+            let width  = grayscale[0].length;
+            let total  = height * width;
+            let count  = new Array(256).fill(0);
+            let histo  = new Array(256).fill(0);
+
+            grayscale = grayscale.map(_ => ([..._]));
+
+            for (let i = 0; i < height; i++) {
+                for (let j = 0; j < width; j++) {
+                    count[grayscale[i][j]]++;
+                }
+            }
+
+            console.log(count);
+
+            histo[0] = count[0];
+            for (let i = 1; i < 256; i++) {
+                histo[i] = histo[i-1] + count[i];
+                histo[i-1] = Math.round(histo[i-1] / total * 255);
+            }
+            histo[255] = Math.round(histo[255] / total * 255);
+
+            console.log(histo);
+
+            for (let i = 0; i < height; i++) {
+                for (let j = 0; j < width; j++) {
+                    grayscale[i][j] = histo[grayscale[i][j]];
+                }
+            }
+
+            return grayscale;
+        }
+
+        function sobel(grayscale) {
+            // TODO:
+            //     + add an wrapper to avoid direct call to this function
+            let height = grayscale.length;
+            let width  = grayscale[0].length;
+
+            grayscale = grayscale.map(_ => ([..._]));
+
+            let sobelX = convolute2d(
+                grayscale,
+                [
+                    [1, 0, -1],
+                    [2, 0, -2],
+                    [1, 0, -1]
+                ]
+            );
+
+            let sobelY = convolute2d(
+                grayscale,
+                [
+                    [ 1,  2,  1],
+                    [ 0,  0,  0],
+                    [-1, -2, -1]
+                ]
+            );
+
+            for (let i = 0; i < height; i++) {
+                for (let j = 0; j < width; j++) {
+                    grayscale[i][j] = Math.round(Math.sqrt(sobelX[i][j]*sobelX[i][j] + sobelY[i][j]*sobelY[i][j]));
+                }
+            }
+
+            return grayscale;
+        };
+
+        function convolute2d(grayscale, kernel) {
+            // TODO:
+            //     + accept any size of 2d kernel
+            //     + add user-defined computation function
+            let height = grayscale.length;
+            let width  = grayscale[0].length;
+            let paddedGrayscale = Array.from(Array(height+2), () => new Array(width+2));
+
+            grayscale = grayscale.map(_ => ([..._]));
+
+            for (let x = 0; x < height; x++) {
+                for (let y = 0; y < width; y++) {
+                    paddedGrayscale[x+1][y+1] = grayscale[x][y];
+                }
+            }
+
+            for(let i = 0; i < width; i++) {
+                paddedGrayscale[0][i+1]        = grayscale[0][i];
+                paddedGrayscale[height+1][i+1] = grayscale[height-1][i];
+            }
+
+            for (let i = 0; i < height; i++) {
+                paddedGrayscale[i+1][0]       = grayscale[i][0];
+                paddedGrayscale[i+1][width+1] = grayscale[i][width-1];
+            }
+
+            paddedGrayscale[0][0]              = grayscale[0][0];
+            paddedGrayscale[0][width+1]        = grayscale[0][width-1];
+            paddedGrayscale[height+1][0]       = grayscale[height-1][0];
+            paddedGrayscale[height+1][width+1] = grayscale[height-1][width-1];
+
+            for (let x = 0; x < height; x++) {
+                grayscale[x].fill[0];
+                for (let y = 0; y < width; y++) {
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            grayscale[x][y] += paddedGrayscale[x+i][y+j] * kernel[i][j];
+                        }
+                    }
+                }
+            }
+
+            return grayscale;
+        };
+
+        function clip(grayscale) {
+            let height = grayscale.length;
+            let width  = grayscale[0].length;
+
+            for (let i = 0; i < height; i++) {
+                for (let j = 0; j < width; j++) {
+                    grayscale[i][j] = Math.max(Math.min(Math.round(grayscale[i][j]), 255), 0);
+                }
+            }
+
+            return grayscale;
+        }
+
+        function genBraillePattern(grayscale, threshold, dotsNum, isNeg) {
+            // TODO:
+            //     + separate out the binarize function
+            //     + decouple the binarization and image negative
+            let height = grayscale.length;
+            let width  = grayscale[0].length;
+            let braillePattern = '';
+
+            dotsNum = dotsNum || 8;
+            isNeg   = isNeg || 0;
+
+            let binarize = function(pixel) { return pixel >= threshold ? 1^isNeg : 0^isNeg; };
+
+            if (dotsNum == 6) {
+                for (let i = 0; i < height; i += 3) {
+                    for (let j = 0; j < width; j += 2) {
+                        let a1 = binarize(grayscale[i][j]);
+                        let a2 = binarize(grayscale[i][j+1]);
+                        let b1 = binarize(grayscale[i+1][j]);
+                        let b2 = binarize(grayscale[i+1][j+1]);
+                        let c1 = binarize(grayscale[i+2][j]);
+                        let c2 = 1;
+                        braillePattern += String.fromCharCode(10240 + a1 + (b1<<1) + (c1<<2) + (a2<<3) + (b2<<4) + (c2<<5));
+                    }
+
+                    braillePattern += '\n';
+                }
+            }
+            else {
+                for (let i = 0; i < height; i += 4) {
+                    for (let j = 0; j < width; j += 2) {
+                        let a1 = binarize(grayscale[i][j]);
+                        let a2 = binarize(grayscale[i][j+1]);
+                        let b1 = binarize(grayscale[i+1][j]);
+                        let b2 = binarize(grayscale[i+1][j+1]);
+                        let c1 = binarize(grayscale[i+2][j]);
+                        let c2 = binarize(grayscale[i+2][j+1]);
+                        let d1 = binarize(grayscale[i+3][j]);
+                        let d2 = 1;
+                        braillePattern += String.fromCharCode(10240 + a1 + (b1<<1) + (c1<<2) + (a2<<3) + (b2<<4) + (c2<<5) + (d1<<6) + (d2<<7));
+                    }
+
+                    braillePattern += '\n';
+                }
+            }
+
+            return braillePattern;
+        };
+    </script>
+</body>
+
+</html>
