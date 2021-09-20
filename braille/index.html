@@ -220,7 +220,7 @@
 
         function bilinearInterpolation(grayscale, width) {
             // TODO:
-            //     + add an wrapper to avoid direct call to this function
+            //     + add a wrapper to avoid direct call to this function
             let zoomRatio    = (width*2 || 150) / image.width;
             let newHeight    = Math.round(zoomRatio * image.height);
             let newWidth     = Math.round(zoomRatio * image.width);
@@ -302,7 +302,7 @@
 
         function histogramEqualization(grayscale) {
             // TODO:
-            //     + maybe need a way to ensure that there are no float point value inside grayscale
+            //     + maybe needs a way to ensure that there are no float point value inside grayscale
             let height = grayscale.length;
             let width  = grayscale[0].length;
             let total  = height * width;
@@ -339,7 +339,7 @@
 
         function sobel(grayscale) {
             // TODO:
-            //     + add an wrapper to avoid direct call to this function
+            //     + add a wrapper to avoid direct call to this function
             let height = grayscale.length;
             let width  = grayscale[0].length;
 
